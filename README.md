@@ -63,14 +63,13 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-Our e-commerce website provides an easy to use and user-focused platform for online shopping. Users can create accounts, manage their carts, search for products, and place orders efficiently with us
+Our e-commerce website provides an easy to use and user-focused platform for online shopping. Users can create accounts, manage their carts, look for products, and place orders on this platform. 
 
 ### Pages
 
 * Home: this page is for the customers to explore and see the products available.
 * Shopping cart: the customers can add items to shopping cart and view the items that has been added.
 * Login: the customers can sign up as a customer or login to an account to be able to purchase the shopping cart.
-* 
 * About: the users can see all the information about this website. 
 
 
