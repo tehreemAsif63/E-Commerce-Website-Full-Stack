@@ -68,3 +68,20 @@ router.delete("/orders/:orderId", async (req, res) => {
     }
   });
   
+/ Create a new item for a specific order
+router.post("/orders/:orderId/items", async (req, res) => {
+    const item = new Item(req.body);
+    try {
+      const savedItem = await item.save();
+      
+      // Add the item to the order's items array
+      const updatedOrder = await Order.updateOne(
+        { _id: req.params.orderId },
+        { $push: { items: savedItem._id } }
+      );
+      
+      res.send(updatedOrder);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  });
