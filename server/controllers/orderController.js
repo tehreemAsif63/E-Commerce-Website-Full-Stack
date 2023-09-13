@@ -85,3 +85,15 @@ router.post("/orders/:orderId/items", async (req, res) => {
       res.status(400).send(err);
     }
   });
+
+// Get all items for a specific order
+router.get("/orders/:orderId/items", async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId).populate('items');
+    res.send(order.items);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+module.exports = router;
