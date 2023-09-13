@@ -45,4 +45,26 @@ router.get("/orders/:orderId", async (req, res) => {
     }
   });
   
+  // Partially update an order by id
+router.patch("/orders/:orderId", async (req, res) => {
+    try {
+      const updatedOrder = await Order.updateOne(
+        { _id: req.params.orderId },
+        { $set: req.body }
+      );
+      res.send(updatedOrder);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  });
+  
+  // Delete an order by id
+router.delete("/orders/:orderId", async (req, res) => {
+    try {
+      const removedOrder = await Order.remove({ _id: req.params.orderId });
+      res.send(removedOrder);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  });
   
