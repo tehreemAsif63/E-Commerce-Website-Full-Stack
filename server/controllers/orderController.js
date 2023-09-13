@@ -32,7 +32,7 @@ router.get("/orders/:orderId", async (req, res) => {
     }
   });
   
-  // Update an order by id
+  // Update an order
   router.put("/orders/:orderId", async (req, res) => {
     try {
       const updatedOrder = await Order.updateOne(
