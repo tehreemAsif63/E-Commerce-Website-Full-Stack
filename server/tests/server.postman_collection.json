@@ -6,10 +6,10 @@
     },
     "item": [
 {
-            "name": "Order",
+            "name": "Cart",
             "item": [
                 {
-                    "name": "Create an Cart",
+                    "name": "Create a Cart",
                     "event": [
                         {
                             "listen": "test",
@@ -170,7 +170,7 @@
                 },
                 
                 {
-                    "name": "GET an items by ID from a Cart",
+                    "name": "GET an item by ID from a Cart",
                     "event": [
                         {
                             "listen": "prerequest",
