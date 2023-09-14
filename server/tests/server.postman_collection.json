@@ -6,12 +6,29 @@
 	},
 	"item": [
 		{
-			"name": "GET /api",
+			"name": "Customer",
+			"item": [
+		 {
+			"name": "create customer",
 			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set('customer_id', jsonData._id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\",()=>{\r",
+							"    pm.expect(pm.response.code).to.eql(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b58d92ec-5214-450c-adb0-28e068aa71b9",
 						"exec": [
 							""
 						],
@@ -20,7 +37,7 @@
 				}
 			],
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
@@ -28,24 +45,447 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"@gmail\",\r\n    \"password\":\"passwordTest\",\r\n  \"name\":\"nameTest\",\r\n  \"lastName\":\"lastNameTest\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{host}}/api",
+					"raw": "{{host}}/api/customers",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"api"
+						"api",
+						"customers"
 					]
 				}
 			},
 			"response": []
-		}
+		},
+		
+				  {
+					"name": "Retrieve customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+								
+									"pm.test(\"Status code is 200\",()=>{\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/customers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},{
+					"name": "Get customer by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\",()=>{\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/customers/{{customer_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"{{customer_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+						{
+							"name": "Edit customer by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\",()=>{\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"@gmail\",\r\n    \"password\":\"passwordTest\",\r\n  \"name\":\"nameTest\",\r\n  \"lastName\":\"lastNameTest\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/customer/{{customer_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										"{{customer_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete a customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\",()=>{\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/customers/{{customer_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										"{{customer_id}}"
+									]
+								}
+							},
+							"response": []
+						},{
+							"name": "Item",
+							"item": [
+						 {
+							"name": "create item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set('item_id', jsonData._id);\r",
+											"\r"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"@gmail\",\r\n   \"price\":12\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						
+								  {
+									"name": "Get alli items",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+												
+													"pm.test(\"Status code is 200\",()=>{\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/api/items",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"api",
+												"items"
+											]
+										}
+									},
+									"response": []
+								},{
+									"name": "get items by ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\",()=>{\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/api/items/{{item_id}}",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"api",
+												"items",
+												"{{item_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "edit item",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\",()=>{\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Item Patched\",\r\n \"price\":100\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/api/items/{{item_id}}",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"api",
+												"items",
+												"{{item_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete item",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\",()=>{\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/api/items/{{item_id}}",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"api",
+												"items",
+												"{{item_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete all of items",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\",()=>{\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/api/items",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"api",
+												"items"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+				
+						
+						]}
+
+		
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "05864cff-5cba-4070-bac3-a59328954ebf",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -55,7 +495,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e9c319be-3306-4fc5-ba34-fcf64391213a",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -65,7 +504,6 @@
 	],
 	"variable": [
 		{
-			"id": "cd185905-a834-4211-8030-583d17702534",
 			"key": "host",
 			"value": "http://localhost:3000",
 			"type": "string"

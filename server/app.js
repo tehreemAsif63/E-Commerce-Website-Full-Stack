@@ -1,12 +1,18 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
+var app = express();
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
+//routes
+const customerRoute = require('./controllers/customerController');
+const itemRoute = require('./controllers/itemController');
+const orderRoute = require('./controllers/orderController');
+const cartRoute = require('./controllers/cartController');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/web-project';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -30,6 +36,11 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
+
+app.use('/api', customerRoute);
+app.use('/api', itemRoute);
+app.use('/api', orderRoute);
+app.use('/api',cartRoute);
 // Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
