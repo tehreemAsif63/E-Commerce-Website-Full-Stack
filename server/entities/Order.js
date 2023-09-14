@@ -7,13 +7,13 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     date: {
-      type: Date,
+      type: String,
       required: true,
     },
     items: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Item",
-      required: true,
+    
     },
   }
 );

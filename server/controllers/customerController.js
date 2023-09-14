@@ -74,27 +74,35 @@ router.patch("/customers/:id", findCustomerById, async (req, res) => {
     res.status(400).json({ error: "Invalid data" });
   }
 });
-//delete a customer with Id
-router.delete("/customers/:id", findCustomerById, async (req, res) => {
+// Delete a customer by ID
+router.delete("/customers/:id", async (req, res) => {
   try {
-    await req.customer.remove();
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    const removedCustomer = await Customer.findByIdAndRemove(req.params.id);
+    if (!removedCustomer) {
+      return res.status(404).send("Customer not found");
+    }
+    res.send(removedCustomer);
+  } catch (err) {
+    res.status(400).send(err);
   }
 });
-
-// create an order for a customer  
-router.post("/customers/:customer_id/orders", async (req, res) => {
+// Create an order for a specific user
+router.post('/customers/:customer_id/orders', async (req, res) => {
   try {
+    const { title, date } = req.body;
     const customer = await Customer.findById(req.params.customer_id);
+
     if (!customer) {
-      return res.status(404).json({ error: "Customer was not found" });
+      return res.status(404).json({ error: "Customer not found" });
     }
-    const order = new Order(req.body);
-    order.customer = customer._id;
-    await order.save();
-    res.status(201).json(order);
+
+    const newOrder = new Order({ title, date });
+    await newOrder.save();
+
+    customer.orders.push(newOrder);
+    await customer.save();
+
+    res.status(201).json(newOrder);
   } catch (error) {
     res.status(400).json({ error: "Invalid data" });
   }
@@ -103,11 +111,13 @@ router.post("/customers/:customer_id/orders", async (req, res) => {
 // Get all orders for a customer
 router.get("/customers/:customer_id/orders", async (req, res) => {
   try {
-    const orders = await Order.find({ customer: req.params.customer_id });
-    if (!orders) {
-      return res.status(404).json({ error: "Customer has no order. " });
+    const customer = await Customer.findById(req.params.customer_id).populate("orders");
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
     }
-    res.status(200).json(orders);
+
+    res.status(200).json(customer.orders);
   } catch (error) {
     res.status(400).json({ error: "Invalid customer data" });
   }
@@ -116,11 +126,21 @@ router.get("/customers/:customer_id/orders", async (req, res) => {
 // Delete an order of a customer
 router.delete("/customers/:customer_id/orders/:order_id", async (req, res) => {
   try {
-    const order = await Order.findOne({ _id: req.params.order_id, customer: req.params.customer_id });
-    if (!order) {
-      return res.status(404).json({ error: "Order was not found" });
+    const customer = await Customer.findById(req.params.customer_id);
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
     }
-    await Order.deleteOne({ _id: req.params.order_id });
+
+    const order = await Order.findByIdAndDelete(req.params.order_id);
+
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    customer.orders.pull(order);
+    await customer.save();
+
     res.status(200).json({ message: "Order deleted successfully" });
   } catch (error) {
     res.status(400).json({ error: "Invalid data" });
@@ -130,14 +150,25 @@ router.delete("/customers/:customer_id/orders/:order_id", async (req, res) => {
 // Get an order of a customer
 router.get("/customers/:customer_id/orders/:order_id", async (req, res) => {
   try {
-    const order = await Order.findOne({ _id: req.params.order_id, customer: req.params.customer_id });
+    const customer = await Customer.findById(req.params.customer_id).populate("orders");
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    const order = customer.orders.find(o => o._id.toString() === req.params.order_id);
+
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
+
     res.status(200).json(order);
   } catch (error) {
     res.status(400).json({ error: "Invalid order data" });
   }
 });
+
+
+
 
 module.exports = router;

@@ -45,21 +45,23 @@ router.get("/items/:itemId", async (req, res) => {
     res.status(400).send(err);
   }
 });
-
 // Delete all items
 router.delete("/items", async (req, res) => {
   try {
-    const removedItems = await Item.remove();
+    const removedItems = await Item.deleteMany({});
     res.send(removedItems);
   } catch (err) {
     res.status(400).send(err);
   }
 });
 
-// Delete an item
+// Delete an item by ID
 router.delete("/items/:itemId", async (req, res) => {
   try {
-    const removedItem = await Item.remove({ _id: req.params.itemId });
+    const removedItem = await Item.findByIdAndRemove(req.params.itemId);
+    if (!removedItem) {
+      return res.status(404).send("Item not found");
+    }
     res.send(removedItem);
   } catch (err) {
     res.status(400).send(err);
