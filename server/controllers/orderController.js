@@ -60,42 +60,60 @@ router.patch("/orders/:orderId", async (req, res) => {
   }
 });
 
-// Delete an order by id
-router.delete("/orders/:orderId", async (req, res) => {
-  try {
-    const removedOrder = await Order.remove({ _id: req.params.orderId });
-    res.send(removedOrder);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
 // Create a new item for a specific order
 router.post("/orders/:orderId/items", async (req, res) => {
-  const item = new Item(req.body);
   try {
+    // Validate the request body to ensure it has the required fields
+    if (!req.body.name || !req.body.price) {
+      return res.status(400).send("Name and price are required fields.");
+    }
+
+    // Create a new item
+    const item = new Item({
+      name: req.body.name,
+      price: req.body.price,
+      // Add any other fields you need
+    });
+
+    // Save the item
     const savedItem = await item.save();
-    
+
     // Add the item to the order's items array
-    const updatedOrder = await Order.updateOne(
-      { _id: req.params.orderId },
-      { $push: { items: savedItem._id } }
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.orderId,
+      { $push: { items: savedItem._id } },
+      { new: true }
     );
-    
+
+    if (!updatedOrder) {
+      return res.status(404).send("Order not found");
+    }
+
     res.send(updatedOrder);
   } catch (err) {
-    res.status(400).send(err);
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-// Get all items for a specific order
+// Get all items for a specific order in JSON format
 router.get("/orders/:orderId/items", async (req, res) => {
   try {
-    const order = await Order.findById(req.params.orderId).populate('items');
-    res.send(order.items);
+    // Find the order by its ID, populate the "items" field, and execute the query
+    const order = await Order.findById(req.params.orderId).populate('items').exec();
+
+    // Check if the order exists
+    if (!order) {
+      return res.status(404).send("Order not found");
+    }
+
+    // Return the items associated with the order in JSON format
+    res.json(order.items);
   } catch (err) {
-    res.status(400).send(err);
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 });
+
 
 module.exports = router;
