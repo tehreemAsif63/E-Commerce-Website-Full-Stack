@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const cartItemSchema = new mongoose.Schema({
-  //for items of a cart
+  // Define the schema for individual cart items
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Item",
@@ -22,7 +22,7 @@ const cartSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    items: [cartItemSchema], 
+    items: [cartItemSchema], // An array of cart items
   }
 );
 
