@@ -21,5 +21,9 @@ const customerSchema = new Schema({
   profilePicUrl: {
     type: String,
   },
+  orders: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Order"
+  }
   });
   module.exports = mongoose.model("Customer", customerSchema);

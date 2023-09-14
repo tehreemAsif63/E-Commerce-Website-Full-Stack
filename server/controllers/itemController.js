@@ -3,65 +3,66 @@ const router = express.Router();
 const Item = require("../entities/Item");
 
 // Create a new item
-router.post("/", async (req, res) => {
+router.post("/items", async (req, res) => {
+  const item = new Item(req.body);
   try {
-    const newItem = await Item.create(req.body);
-    res.status(201).json(newItem);
+    const savedItem = await item.save();
+    res.send(savedItem);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).send({error: "Invalid data for item"});
   }
 });
 
-// Retrieve all items
-router.get("/", async (req, res) => {
+// Update an item(partially)
+router.patch("/items/:itemId", async (req, res) => {
   try {
-    const items = await Item.find();
-    res.status(200).json(items);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Retrieve a specific item by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const item = await Item.findById(req.params.id);
-    if (!item) {
-      return res.status(404).json({ error: "Item not found" });
-    }
-    res.status(200).json(item);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Update a specific item by ID
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedItem = await Item.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
+    const updatedItem = await Item.updateOne(
+      { _id: req.params.itemId },
+      { $set: req.body }
     );
-    if (!updatedItem) {
-      return res.status(404).json({ error: "Item not found" });
-    }
-    res.status(200).json(updatedItem);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.send(updatedItem);
+  } catch (err) {
+    res.status(400).send(err);
   }
 });
 
-// Delete a specific item by ID
-router.delete("/:id", async (req, res) => {
+// Get all items sorted by price (cheapest on top)
+router.get("/items", async (req, res) => {
   try {
-    const deletedItem = await Item.findByIdAndRemove(req.params.id);
-    if (!deletedItem) {
-      return res.status(404).json({ error: "Item not found" });
-    }
-    res.status(204).send(); // No content response
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const items = await Item.find().sort({ price: 1 });
+    res.send(items);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// Get an item by id
+router.get("/items/:itemId", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.itemId);
+    res.send(item);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// Delete all items
+router.delete("/items", async (req, res) => {
+  try {
+    const removedItems = await Item.remove();
+    res.send(removedItems);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// Delete an item
+router.delete("/items/:itemId", async (req, res) => {
+  try {
+    const removedItem = await Item.remove({ _id: req.params.itemId });
+    res.send(removedItem);
+  } catch (err) {
+    res.status(400).send(err);
   }
 });
 
