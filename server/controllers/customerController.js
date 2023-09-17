@@ -1,7 +1,75 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Customer = require("../entities/Customer");
 const Order = require("../entities/Order"); 
+// Signup Endpoint
+router.post("/signup/customer", async (req, res) => {
+  try {
+    const { email, password, name, lastName } = req.body;
+
+    // Check if the email already exists in the database
+    const existingCustomer = await Customer.findOne({ email });
+    if (existingCustomer) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    // Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new customer
+    const newCustomer = new Customer({
+      email,
+      password: hashedPassword,
+      name,
+      lastName,
+    });
+
+    // Save the customer to the database
+    await newCustomer.save();
+
+    // Generate a JWT token for the customer
+    const token = jwt.sign({ customerId: newCustomer._id }, "your-secret-key", {
+      expiresIn: "3d", // You can adjust the expiration time
+    });
+
+    res.status(201).json({ token });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// Login Endpoint
+router.post("/login/customer", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find the customer by email
+    const customer = await Customer.findOne({ email });
+
+    // Check if the customer exists
+    if (!customer) {
+      return res.status(401).json({ message: "Authentication failed" });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const passwordMatch = await bcrypt.compare(password, customer.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Authentication failed" });
+    }
+
+    // Generate a JWT token for the customer
+    const token = jwt.sign({ customerId: customer._id }, "your-secret-key", {
+      expiresIn: "1h", // You can adjust the expiration time
+    });
+
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 // to find a customer by ID
 const findCustomerById = async (req, res, next) => {

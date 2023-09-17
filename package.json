@@ -4,10 +4,12 @@
   "description": "This collection package integrates the server and client for deployment.",
   "main": "server/app.js",
   "scripts": {
+    "lint": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint-fix": "npm run lint -- --fix",
     "postinstall": "npm install --prefix server && npm install --prefix client && npm run build --prefix client"
   },
-  "engines" : {
-    "npm" : "9.x",
+  "engines": {
+    "npm": "9.x",
     "node": "18.x"
   }
 }

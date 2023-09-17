@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-    </div>
-    <!-- Render the content of the current page view -->
-    <router-view/>
+    <Navbar />
+    <router-view />
+    
   </div>
 </template>
-
+<script>
+import Navbar from '@/components/Navbar.vue'
+export default {
+  name: 'app',
+  components: {
+    Navbar
+  }
+}
+</script>
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
