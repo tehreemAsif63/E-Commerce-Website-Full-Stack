@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Customer = require("../entities/Customer");
 const Order = require("../entities/Order"); 
+
 // Signup Endpoint
 router.post("/signup/customer", async (req, res) => {
   try {
@@ -65,7 +66,9 @@ router.post("/login/customer", async (req, res) => {
       expiresIn: "1h", // You can adjust the expiration time
     });
 
-    res.status(200).json({ token });
+    // Include the customerId in the response
+    res.status(200).json({ token, customerId: customer._id }); // Modify this line
+
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }

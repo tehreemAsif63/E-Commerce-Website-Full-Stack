@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="signup-container">
       <h1>Sign Up</h1>
       <form @submit.prevent="signup">
         <div>
@@ -19,6 +19,7 @@
           <input type="text" id="lastName" v-model="formData.lastName" required />
         </div>
         <button type="submit">Sign Up</button>
+        <router-link to="/login" class="login-link">Login</router-link>
       </form>
       <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
@@ -77,5 +78,22 @@ export default {
 </script>
   
   <style scoped>
-  /* Add your CSS styles here */
+    body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  
+  
+  }
+ .signup-container{
+    width: 350px;
+    height: 500px;
+    background: lightgreen;
+    overflow: hidden;
+    border-radius: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: 500px;
+}
   </style>

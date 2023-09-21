@@ -1,16 +1,42 @@
 const express = require("express");
 const router = express.Router();
 const Item = require("../entities/Item");
+const path = require("path");
+const fs = require("fs");
 
-// Create a new item
-router.post("/items", async (req, res) => {
-  const item = new Item(req.body);
-  try {
-    const savedItem = await item.save();
-    res.send(savedItem);
-  } catch (error) {
-    res.status(400).send({error: "Invalid data for item"});
+var multer = require('multer');
+ 
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+ 
+var upload = multer({ storage: storage });
+
+router.post('/items', upload.single('image'), (req, res) => {
+ 
+  var obj = {
+      name: req.body.name,
+      price: req.body.price,
+      imagr: {
+          data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+          contentType: 'image/png'
+      }
   }
+  imgSchema.create(obj)
+  .then ((err, item) => {
+      if (err) {
+          console.log(err);
+      }
+      else {
+          // item.save();
+          res.redirect('/');
+      }
+  });
 });
 
 // Update an item(partially)

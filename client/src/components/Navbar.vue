@@ -1,18 +1,37 @@
 
 <template>
-    <nav class="navbar">
-      <div class="container">
-        <div class="logo">E Commerce</div>
-        <ul class="nav-links">
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/items">Products</router-link></li>
-          <li><router-link to="/customers">About</router-link></li>
-          <li><router-link to="/">Login</router-link></li>
-        </ul>
-        <div class="cart-logo">🛒</div>
-      </div>
-    </nav>
-  </template>
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">E Commerce</div>
+      <ul class="nav-links">
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/items">Products</router-link></li>
+        <li><router-link to="/customers">About</router-link></li>
+        <li>
+          <!-- Use a computed property to display "Login" or "Logout" -->
+          <router-link :to="loginLink">{{ loginText }}</router-link>
+        </li>
+      </ul>
+      <div class="cart-logo">🛒</div>
+    </div>
+  </nav>
+</template>
+
+<script>
+export default {
+  computed: {
+    // Computed property to determine the login link
+    loginLink() {
+      return this.$store.state.loggedIn ? '/logout' : '/login'
+    },
+    // Computed property to determine the login text
+    loginText() {
+      return this.$store.state.loggedIn ? 'Logout' : 'Login'
+    }
+  }
+}
+</script>
+
   <style scoped>
   .navbar {
     background-color: lightgreen;

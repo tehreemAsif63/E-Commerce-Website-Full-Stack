@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Item from './views/Item.vue'
+import Item from './views/ItemList.vue'
 import Customer from './views/Customer.vue'
 import MyProfile from './views/MyProfile.vue'
-import SignUp from './views/SignUp.vue'
+import SignUp from './components/SignUp.vue'
+import Login from './components/Login'
+import Logout from './components/Logout'
+import CreateItem from './components/createItem.vue'
 
 Vue.use(Router)
 
@@ -28,7 +31,7 @@ export default new Router({
       component: Customer
     },
     {
-      path: '/minasidor',
+      path: '/myprofile',
       name: 'MyProfile',
       component: MyProfile
     },
@@ -36,6 +39,21 @@ export default new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: Logout
+    },
+    {
+      path: '/createItem',
+      name: 'createItem',
+      component: CreateItem
     }
   ]
 })
