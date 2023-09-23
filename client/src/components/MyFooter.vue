@@ -13,8 +13,12 @@
         <h5>Visit</h5>
         <router-link to="/visit">Visit Us</router-link>
       </div>
-
-      
+<div class="footer-icons">
+        <!-- Add your icons here -->
+        <i class="icon">Icon 1</i>
+        <i class="icon">Icon 2</i>
+        <i class="icon">Icon 3</i>
+      </div>
     </div>
   </footer>
 </template>
@@ -47,4 +51,14 @@ footer {
 .footer-section {
   margin: 0 10px;
 }
+.footer-icons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align to the right */
+}
+
+.footer-icons .icon {
+  margin-left: 10px; /* Add some space between the icons */
+}
+
 </style>
