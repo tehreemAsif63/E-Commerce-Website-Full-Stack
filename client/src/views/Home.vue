@@ -21,12 +21,9 @@ export default {
   },
   methods: {
     addToCart(item) {
-     
       this.cart.push(item)
-  
     },
     removeFromCart(index) {
- 
       if (index >= 0 && index < this.cart.length) {
         this.cart.splice(index, 1)
       }
