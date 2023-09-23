@@ -34,7 +34,7 @@ export default {
 
   <style scoped>
   .navbar {
-    background-color: lightblue;
+    background-color: lightpink;
     color: white;
     padding: 10px 0;
   }
