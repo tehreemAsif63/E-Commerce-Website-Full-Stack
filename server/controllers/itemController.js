@@ -1,43 +1,68 @@
 const express = require("express");
+
 const router = express.Router();
 const Item = require("../entities/Item");
-const path = require("path");
-const fs = require("fs");
 
-var multer = require('multer');
- 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
+
+router.post('/items', async (req, res) => {
+  try {
+    // Extract data from the request body
+    const { name, price, image } = req.body;
+
+    // Create a new item document
+    const newItem = new Item({
+      name,
+      price,
+      image,
+    });
+
+    // Save the item to the MongoDB database
+    await newItem.save();
+
+    // Respond with a success message
+    res.status(201).json({ message: 'Item added successfully', item: newItem });
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
- 
-var upload = multer({ storage: storage });
+/*
+const fileUpload = require("express-fileupload");
+const path = require("path");
+router.use(fileUpload());
 
-router.post('/items', upload.single('image'), (req, res) => {
- 
-  var obj = {
+
+router.post('/items', async (req, res) => {
+  // Check if the 'image' field is provided in the request body
+  if (!req.files || !req.files.image) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+
+  const image = req.files.image;
+  const uploadPath = path.join(__dirname, 'uploads', image.name);
+
+  try {
+    // Move the uploaded file to the desired location
+    await image.mv(uploadPath);
+
+    // Store only the file name in the 'image' field
+    const newItem = new Item({
       name: req.body.name,
       price: req.body.price,
-      imagr: {
-          data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-          contentType: 'image/png'
-      }
+      image: image.name, // Store the file name, not the full path
+    });
+
+    // Save the item to the database
+    await newItem.save();
+
+    res.json({ message: 'Item created successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
   }
-  imgSchema.create(obj)
-  .then ((err, item) => {
-      if (err) {
-          console.log(err);
-      }
-      else {
-          // item.save();
-          res.redirect('/');
-      }
-  });
-});
+});*/
+
 
 // Update an item(partially)
 router.patch("/items/:itemId", async (req, res) => {
@@ -52,13 +77,17 @@ router.patch("/items/:itemId", async (req, res) => {
   }
 });
 
-// Get all items sorted by price (cheapest on top)
+// Define a route to retrieve a list of items
 router.get("/items", async (req, res) => {
   try {
-    const items = await Item.find().sort({ price: 1 });
-    res.send(items);
+    // Query the database to get all items
+    const items = await Item.find();
+
+    // Send the list of items as a JSON response
+    res.json(items);
   } catch (err) {
-    res.status(400).send(err);
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 

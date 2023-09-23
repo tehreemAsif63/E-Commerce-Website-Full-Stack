@@ -11,11 +11,12 @@ const store = new Vuex.Store({
     loggedIn: false,
     errorMessage: '',
     customer: {
-      customerId: '', 
+      customerId: '',
       email: '',
       name: '',
       lastName: ''
-    }
+    },
+    cart: []
     // ...
   },
   mutations: {
@@ -36,9 +37,21 @@ const store = new Vuex.Store({
       state.errorMessage = ''
       state.customer.email = ''
       state.customer.customerId = ''
+    },
+    ADD_TO_CART(state, item) {
+      state.cart.push(item)
+    },
+    CLEAR_CART(state) {
+      state.cart = []
     }
   },
   actions: {
+    addToCart({ commit }, item) {
+      commit('ADD_TO_CART', item)
+    },
+    clearCart({ commit }) {
+      commit('CLEAR_CART')
+    },
     async loginCustomer({ commit }, formData) {
       try {
         if (!formData.email || !formData.password) {
@@ -51,19 +64,25 @@ const store = new Vuex.Store({
           commit('SET_CUSTOMER_ID', response.data.customerId)
           router.push('/myprofile')
         } else {
-          commit('SET_ERROR_MESSAGE', 'Login failed. Please check your credentials and try again.')
+          commit(
+            'SET_ERROR_MESSAGE',
+            'Login failed. Please check your credentials and try again.'
+          )
         }
       } catch (error) {
-        commit('SET_ERROR_MESSAGE', 'An error occurred. Please try again later.')
+        commit(
+          'SET_ERROR_MESSAGE',
+          'An error occurred. Please try again later.'
+        )
         console.error(error)
       }
     },
-
 
     logoutUser({ commit }) {
       commit('RESET_STATE')
     }
   }
+ 
 })
 
 export default store

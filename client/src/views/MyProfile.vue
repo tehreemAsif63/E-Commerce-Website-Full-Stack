@@ -17,9 +17,7 @@ export default {
     }
   },
   async created() {
-
     if (!this.customer.customerId) {
-
       this.$router.push('/login')
       return
     }
@@ -29,7 +27,6 @@ export default {
       this.$store.commit('SET_CUSTOMER', response.data)
     } catch (error) {
       console.error(error)
-
     }
   }
 }

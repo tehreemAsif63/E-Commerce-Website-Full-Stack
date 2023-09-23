@@ -12,7 +12,7 @@ const orderRoute = require('./controllers/orderController');
 const cartRoute = require('./controllers/cartController');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/serverTestDB';
+var mongoURI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.zxyml1c.mongodb.net/?retryWrites=true&w=majority';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -27,6 +27,9 @@ mongoose.connect(mongoURI).catch(function(err) {
 
 // Create Express app
 var app = express();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
+
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,6 +38,7 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
+
 
 
 app.use('/api', customerRoute);

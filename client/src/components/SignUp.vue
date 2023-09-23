@@ -1,29 +1,75 @@
 <template>
-    <div class="signup-container">
-      <h1>Sign Up</h1>
-      <form @submit.prevent="signup">
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="formData.email" required />
-        </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="formData.password" required />
-        </div>
-        <div>
-          <label for="name">Name:</label>
-          <input type="text" id="name" v-model="formData.name" required />
-        </div>
-        <div>
-          <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" v-model="formData.lastName" required />
-        </div>
-        <button type="submit">Sign Up</button>
-        <router-link to="/login" class="login-link">Login</router-link>
-      </form>
-      <p v-if="errorMessage">{{ errorMessage }}</p>
-    </div>
-  </template>
+  <div class="signup-container">
+    <h1>Sign Up</h1>
+    <b-form @submit.prevent="signup" class="signup-form">
+      <b-form-group
+        id="email-group"
+        label="Email:"
+        label-for="email"
+        label-cols-sm="2"
+        label-align-sm="right"
+      >
+        <b-form-input
+          id="email"
+          v-model="formData.email"
+          type="email"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="password-group"
+        label="Password:"
+        label-for="password"
+        label-cols-sm="2"
+        label-align-sm="right"
+      >
+        <b-form-input
+          id="password"
+          v-model="formData.password"
+          type="password"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="name-group"
+        label="Name:"
+        label-for="name"
+        label-cols-sm="2"
+        label-align-sm="right"
+      >
+        <b-form-input
+          id="name"
+          v-model="formData.name"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="lastName-group"
+        label="Last Name:"
+        label-for="lastName"
+        label-cols-sm="2"
+        label-align-sm="right"
+      >
+        <b-form-input
+          id="lastName"
+          v-model="formData.lastName"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-button type="submit" variant="primary" class="signup-button">Sign Up</b-button>
+    </b-form>
+    <router-link to="/login" class="login-link">Login</router-link>
+    <b-alert
+      v-if="errorMessage"
+      variant="danger"
+      dismissible
+      fade
+      class="error-message"
+    >
+      {{ errorMessage }}
+    </b-alert>
+  </div>
+</template>
   
 <script>
 import { Api } from '@/Api'
@@ -43,21 +89,18 @@ export default {
   methods: {
     async signup() {
       try {
-        // Basic client-side validation
         if (!this.validateForm()) {
           return
         }
-  
-        // Send a POST request to the signup endpoint
+
+
         const response = await Api.post('/signup/customer', this.formData)
-  
-        // Assuming the server returns a token on successful signup
+
+
         if (response.data.token) {
-          // Store the token in local storage or Vuex store for authentication
           localStorage.setItem('token', response.data.token)
-  
-          // Redirect to a protected route or perform other actions
-          // You can use Vue Router for navigation
+
+
           this.$router.push('/mypofile')
         }
       } catch (error) {
@@ -66,7 +109,6 @@ export default {
       }
     },
     validateForm() {
-      // Basic client-side validation
       if (!this.formData.email || !this.formData.password || !this.formData.name || !this.formData.lastName) {
         this.errorMessage = 'All fields are required.'
         return false
@@ -77,23 +119,32 @@ export default {
 }
 </script>
   
-  <style scoped>
-    body{
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-  
-  
-  }
- .signup-container{
-    width: 350px;
-    height: 500px;
-    background: lightgreen;
-    overflow: hidden;
-    border-radius: 10px;
-    justify-content: center;
-    margin-top: 20px;
-    margin-left: 500px;
+<style scoped>
+.signup-container {
+  background-color: lightgreen;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  margin: 40px auto; /* Center horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center vertically */
+  text-align: center; /* Center text */
+  min-height: 50vh; /* Makes the container at least the height of the viewport */
 }
-  </style>
+
+.signup-form {
+  margin-top: 20px;
+}
+
+.signup-button {
+  background-color: lightblue;
+  color: white;
+}
+
+.signup-button:hover {
+  background-color: blue;
+}
+</style>

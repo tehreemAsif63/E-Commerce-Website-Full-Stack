@@ -10,10 +10,15 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    items: {
+    items: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Item",
+      },
+    ],
+    customer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Item",
-    
+      ref: "Customer",
     },
   }
 );
