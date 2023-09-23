@@ -10,6 +10,8 @@ import Logout from './components/Logout'
 import CreateItem from './components/createItem.vue'
 import AboutUs from '@/views/AboutUs.vue'
 import Help from '@/views/Help.vue'
+import Visit from '@/views/Visit.vue'
+
 
 Vue.use(Router)
 
@@ -66,6 +68,11 @@ export default new Router({
       path: '/help',
       name: 'Help',
       component: Help 
+    },
+    {
+      path: '/visit',
+      name: 'Visit',
+      component: Visit 
     }
   ]
 })
