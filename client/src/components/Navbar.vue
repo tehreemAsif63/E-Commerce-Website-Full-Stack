@@ -6,7 +6,6 @@
       <ul class="nav-links">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/items">Products</router-link></li>
-        <li><router-link to="/About Us">About</router-link></li>
         <li>
           <!-- Use a computed property to display "Login" or "Logout" -->
           <router-link :to="loginLink">{{ loginText }}</router-link>
