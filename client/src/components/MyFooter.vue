@@ -1,7 +1,7 @@
 <template>
   <footer>
    <div class="footer-content">
-
+   
       <div class="footer-section">                   
         <router-link to="/about" class="footer-heading">About Us</router-link>
       </div>
@@ -14,15 +14,22 @@
         <router-link to="/visit" class="footer-heading">Visit Us</router-link>
       </div>
 
-<div class="footer-icons">
+      <div class="footer-icons">
         <i class="icon">
           <img src="/images/cod-footer">
         </i>
         <i class="icon">
           <img src="/images/visa">
         </i>
-        
+
+        <div class="gitlab-link">                   
+        <h4>https://git.chalmers.se/courses/dit342/2023/group-31-web</h4>
       </div>
+
+      </div>
+      
+   
+
     </div>
   </footer>
 </template>
@@ -60,17 +67,27 @@ footer {
   color: rgb(248, 250, 252);
   font-weight: bold;
   font-size: 20px;
+  margin-top: 5px;
 }
 .footer-icons {
   display: flex;
-  align-items: center;
+  align-items: right;
   justify-content: flex-end; /* Align to the right */
 }
 
 .footer-icons .icon {
-  margin-left: 10px; /* Add some space between the icons */
-  width: 10px;
-  height: 10px;
+  margin-left: 30px;
+  margin-right: 20px;
+  width: 5px;
+  height: 5px;
+}
+
+.gitlab-link{
+   color: rgb(248, 250, 252);
+  font-style: italic;
+  font-size:1px;
+  align-items: right;
+  justify-content: space-evenly;
 }
 
 </style>
