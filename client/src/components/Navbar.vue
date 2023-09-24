@@ -50,6 +50,7 @@ export default {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin-block-end: 5%;
     margin-right: 10%;
+    
     }
 
   .heart {
@@ -73,7 +74,7 @@ export default {
     font-weight: bold;
   }
   .cart-logo {
-    font-size: 40px;
+    font-size: 30px;
     cursor: pointer;
     order: 2;
   }

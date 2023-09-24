@@ -1,18 +1,19 @@
 <template>
   <footer>
    <div class="footer-content">
+
       <div class="footer-section">                   
-        <h5>About Us</h5>
-        <router-link to="/about">Learn more about us</router-link>
+        <router-link to="/about" class="footer-heading">About Us</router-link>
       </div>
+
       <div class="footer-section">
-        <h5>Help</h5>
-        <router-link to="/help">Get help and support</router-link>
+        <router-link to="/help" class="footer-heading">Help</router-link>
       </div>
+
       <div class="footer-section">
-        <h5>Visit</h5>
-        <router-link to="/visit">Visit Us</router-link>
+        <router-link to="/visit" class="footer-heading">Visit Us</router-link>
       </div>
+
 <div class="footer-icons">
         <!-- Add your icons here -->
         <i class="icon">Icon 1</i>
@@ -50,6 +51,12 @@ footer {
 
 .footer-section {
   margin: 0 10px;
+  }
+
+.footer-heading {
+  color: rgb(248, 250, 252);
+  font-weight: bold;
+  font-size: 20px;
 }
 .footer-icons {
   display: flex;
