@@ -25,18 +25,18 @@
     <p class="paragraphing">Email: support@example.com</p>
     <p class="paragraphing">Phone: +46-7123-456789</p>
 
-<p class="questions">User Guides</p>
-
-<p class="questions">Privacy Policy</p>
-
-<p class="questions">Feedback</p>
+<div class="bottom-links">
+      <router-link to="/user-guides" class="link">User Guides</router-link>
+      <router-link to="/privacy-policy" class="link">Privacy Policy</router-link>
+      <router-link to="/feedback" class="link">Feedback</router-link>
+</div>
 
  </div>
 </template>
 
 <script>
 export default {
-  name: 'AboutUs'
+  name: 'Help'
 }
 </script>
 
@@ -75,6 +75,24 @@ margin: 2%;
   line-height: 1.6;
   padding: 2px;
 
+}
+.bottom-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; 
+}
+
+.link {
+  margin: 0 20px; 
+  margin-top: 20px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #0066cc; 
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 </style>
