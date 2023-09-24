@@ -15,10 +15,13 @@
       </div>
 
 <div class="footer-icons">
-        <!-- Add your icons here -->
-        <i class="icon">Icon 1</i>
-        <i class="icon">Icon 2</i>
-        <i class="icon">Icon 3</i>
+        <i class="icon">
+          <img src="/images/cod-footer">
+        </i>
+        <i class="icon">
+          <img src="/images/visa">
+        </i>
+        
       </div>
     </div>
   </footer>
@@ -66,6 +69,8 @@ footer {
 
 .footer-icons .icon {
   margin-left: 10px; /* Add some space between the icons */
+  width: 10px;
+  height: 10px;
 }
 
 </style>
