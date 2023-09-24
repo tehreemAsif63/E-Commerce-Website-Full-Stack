@@ -3,21 +3,20 @@ const mongoose = require("mongoose");
 const itemSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: String,
-    required: true
+    required: true,
   },
   image: {
-     data: Buffer,
-     contentType: String
-   
+    type: String, // Store the file path as a string
   },
-  type: [{
-    type: String,
-
-  }]
+  type: [
+    {
+      type: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Item", itemSchema);

@@ -5,14 +5,23 @@ const Item = require("../entities/Item");
 
 // Create a new order
 router.post("/orders", async (req, res) => {
-  const order = new Order(req.body);
   try {
+    // Validate the request data against the Order schema
+    const order = new Order(req.body);
+    const validationError = order.validateSync();
+    if (validationError) {
+      return res.status(400).send({ error: validationError.message });
+    }
+
+    // Save the order to the database
     const savedOrder = await order.save();
-    res.send(savedOrder);
+    res.status(201).send(savedOrder); // Use 201 for resource creation
   } catch (error) {
-    res.status(400).send({error:"invalid order data"});
+    console.error("Error creating order:", error);
+    res.status(500).send({ error: "An error occurred while creating the order." });
   }
 });
+
 
 // Get all orders
 router.get("/orders", async (req, res) => {

@@ -7,9 +7,7 @@
   
 <script>
 export default {
-  // You can add any additional logic here if needed
   mounted() {
-    // Assuming you have a Vuex store, you can use this to perform the logout action
     this.$store.dispatch('logoutUser')
   }
 }

@@ -9,7 +9,7 @@
         <div class="cart-item-info">
           <img :src="item.image" alt="Item Image" />
           <h3>{{ item.name }}</h3>
-          <p>Price: ${{ item.price }}</p>
+          <p>Price: {{ item.price }}</p>
         </div>
         <button @click="removeFromCart(index)">Remove</button>
       </div>
@@ -21,28 +21,17 @@
 <script>
 export default {
   props: {
-    cart: Array 
+    cart: Array,
+    isLoggedIn: Boolean // Assuming you have a prop for checking if the user is logged in
   },
   methods: {
     removeFromCart(index) {
+      // Emit an event to remove an item from the cart
       this.$emit('remove-from-cart', index)
     },
     getTotalPrice() {
-      return this.cart.reduce((total, item) => total + item.price, 0)
+      return this.cart.reduce((total, item) => total + parseFloat(item.price), 0)
     }
   }
 }
 </script>
-
-<style scoped>
-.cart-item {
-  border: 1px solid #ccc;
-  padding: 16px;
-  margin: 16px;
-  display: inline-block;
-}
-
-.cart-item-info {
-  text-align: center;
-}
-</style>

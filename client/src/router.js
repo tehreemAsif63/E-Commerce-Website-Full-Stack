@@ -6,11 +6,13 @@ import Customer from './views/Customer.vue'
 import MyProfile from './views/MyProfile.vue'
 import SignUp from './components/SignUp.vue'
 import Login from './components/Login'
+import Cart from './views/Cart.vue'
 import Logout from './components/Logout'
 import CreateItem from './components/createItem.vue'
 import AboutUs from '@/views/AboutUs.vue'
 import Help from '@/views/Help.vue'
 import Visit from '@/views/Visit.vue'
+
 
 
 Vue.use(Router)
@@ -33,6 +35,11 @@ export default new Router({
       path: '/customers',
       name: 'customer',
       component: Customer
+    },
+    {
+      path: '/mycart',
+      name: 'cart',
+      component: Cart
     },
     {
       path: '/myprofile',
