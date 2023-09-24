@@ -2,7 +2,7 @@
 <template>
   <nav class="navbar">
     <div class="container">
-      <div class="logo">E Commerce</div>
+      <div class="logo">All You Need <span class="heart">❤</span> </div>
       <ul class="nav-links">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/items">Products</router-link></li>
@@ -45,13 +45,23 @@ export default {
     margin: 0 auto;
   }
   .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
+    font-size: 30px;
+    font-weight: bolder;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-block-end: 5%;
+    margin-right: 10%;
+    }
+
+  .heart {
+  color: rgb(183, 39, 63);
+}
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 150px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: auto;
   }
   .nav-links li {
     padding: 0;
@@ -63,7 +73,8 @@ export default {
     font-weight: bold;
   }
   .cart-logo {
-    font-size: 24px;
+    font-size: 40px;
     cursor: pointer;
+    order: 2;
   }
   </style>
