@@ -66,7 +66,7 @@ footer {
 .footer-heading {
   color: rgb(248, 250, 252);
   font-weight: bold;
-  font-size: 20px;
+  font-size: 50px;
   margin-top: 5px;
 }
 .footer-icons {
