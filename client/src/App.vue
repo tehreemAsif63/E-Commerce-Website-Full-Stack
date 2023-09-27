@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view />  
+    <router-view />
+    <MyFooter />
+    
   </div>
 </template>
 <script>
 import Navbar from '@/components/Navbar.vue'
-
+import MyFooter from '@/components/MyFooter.vue'
 export default {
   name: 'app',
   components: {
-    Navbar
-   
+    Navbar,
+    MyFooter
   }
 }
 </script>

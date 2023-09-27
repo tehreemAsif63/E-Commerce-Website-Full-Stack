@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-lightgreen">
     <div class="container">
-      <router-link to="/" class="navbar-brand text-script text-white">H & M</router-link>
+      <router-link to="/" class="navbar-brand text-script text-white">Your Shop</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -48,7 +48,7 @@ export default {
 </script>
   <style scoped>
   .navbar {
-    background-color: lightgreen;
+    background-color: lightpink;
     color: white;
     height: 90px;
     padding: 10px 0;
@@ -63,13 +63,24 @@ export default {
     font-family: 'Script Font', cursive;
   }
   .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
+    font-size: 30px;
+    font-weight: bolder;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-block-end: 5%;
+    margin-right: 10%;
+    
+    }
+
+  .heart {
+  color: rgb(183, 39, 63);
+}
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 150px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: auto;
   }
   .nav-links li {
     padding: 0;
@@ -81,8 +92,9 @@ export default {
     font-weight: bold;
   }
   .cart-logo {
-    font-size: 24px;
+    font-size: 30px;
     cursor: pointer;
+    order: 2;
   }
   .text-script {
   font-family: 'Script Font', cursive; 
