@@ -7,7 +7,7 @@ router.post("/carts", async (req, res) => {
   const cart = new Cart(req.body);
   try {
     const savedCart = await cart.save();
-    res.status(201).send(savedCart); // Use 201 status for resource creation
+    res.status(201).send(savedCart); 
   } catch (error) {
     res.status(400).send({ error: "Invalid input. Cart was not created" });
   }
@@ -18,8 +18,8 @@ router.delete("/carts/:cartId/items/:itemId", async (req, res) => {
   try {
     const updatedCart = await Cart.findByIdAndUpdate(
       req.params.cartId,
-      { $pull: { items: { _id: req.params.itemId } } }, // Remove by item's _id
-      { new: true } // To return the updated cart
+      { $pull: { items: { _id: req.params.itemId } } }, 
+      { new: true } 
     );
     if (!updatedCart) {
       return res.status(404).send("Cart not found");
@@ -60,8 +60,6 @@ router.post("/carts/:cartId/items", async (req, res) => {
     if (!cart) {
       return res.status(404).send("Cart not found");
     }
-
-    // Add the item to the cart's items array
     cart.items.push(req.body);
     const savedCart = await cart.save();
 

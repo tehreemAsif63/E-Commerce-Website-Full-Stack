@@ -12,7 +12,7 @@ const orderRoute = require('./controllers/orderController');
 const cartRoute = require('./controllers/cartController');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.zxyml1c.mongodb.net/?retryWrites=true&w=majority';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/web';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB

@@ -9,14 +9,12 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String, // Store the file path as a string
+  desc: {
+    type: String, 
   },
-  type: [
-    {
-      type: String,
-    },
-  ],
+  image: {
+    type: String,
+  }
 });
 
 module.exports = mongoose.model("Item", itemSchema);

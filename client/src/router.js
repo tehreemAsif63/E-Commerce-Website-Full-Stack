@@ -9,6 +9,9 @@ import Login from './components/Login'
 import Cart from './views/Cart.vue'
 import Logout from './components/Logout'
 import CreateItem from './components/createItem.vue'
+import Visit from '@/views/Visit.vue'
+import Order from './views/Order.vue'
+
 
 
 Vue.use(Router)
@@ -21,7 +24,13 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },    
+    {
+      path: '/visit',
+      name: 'Visit',
+      component: Visit 
     },
+
     {
       path: '/items',
       name: 'item',
@@ -61,10 +70,10 @@ export default new Router({
       path: '/createItem',
       name: 'createItem',
       component: CreateItem
-    }/* {
+    }, {
       path: '/order',
       name: 'order',
       component: Order
-    } */
+    } 
   ]
 })

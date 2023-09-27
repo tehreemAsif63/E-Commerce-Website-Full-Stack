@@ -20,33 +20,32 @@
             <router-link :to="loginLink" class="nav-link text-white">{{ loginText }}</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/mycart" class="nav-link text-white">🛒</router-link>
+            <router-link class="nav-link text-white">🛒</router-link>
           </li>
         </ul>
-      
-      
+      <div>
+      <Cart></Cart>
+    </div>
       </div>
     </div>
   </nav>
 </template>
-
-
-
 <script>
+import Cart from '../views/Cart.vue'
 export default {
+  components: {
+    Cart
+  },
   computed: {
-   
     loginLink() {
-      return this.$store.state.loggedIn ? '/logout' : '/login'
+      return this.$store.getters.isLoggedIn ? '/logout' : '/login' 
     },
-  
     loginText() {
-      return this.$store.state.loggedIn ? 'Logout' : 'Login'
+      return this.$store.getters.isLoggedIn ? 'Logout' : 'Login' 
     }
   }
 }
 </script>
-
   <style scoped>
   .navbar {
     background-color: lightgreen;
@@ -86,7 +85,7 @@ export default {
     cursor: pointer;
   }
   .text-script {
-  font-family: 'Script Font', cursive; /* Replace 'Script Font' with the actual font you want to use */
+  font-family: 'Script Font', cursive; 
 }
 
 .bg-lightgreen {
