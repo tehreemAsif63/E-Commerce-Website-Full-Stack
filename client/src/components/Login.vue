@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h1>{{ $store.state.loggedIn ? 'Logout' : 'Login' }}</h1>
+    <h1>{{ $store.getters.isLoggedIn ? 'Logout' : 'Login' }}</h1>
     <b-form @submit.prevent="toggleLogin" class="login-form">
       <b-form-group
         id="email-group"
@@ -11,7 +11,7 @@
       >
         <b-form-input
           id="email"
-          v-model="formData.email"
+          v-model="email"
           required
         ></b-form-input>
       </b-form-group>
@@ -24,13 +24,13 @@
       >
         <b-form-input
           id="password"
-          v-model="formData.password"
+          v-model="password"
           type="password"
           required
         ></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary" class="login-button">
-        {{ $store.state.loggedIn ? 'Logout' : 'Login' }}
+        {{ $store.getters.isLoggedIn ? 'Logout' : 'Login' }}
       </b-button>
     </b-form>
     <b-alert
@@ -47,31 +47,54 @@
 </template>
 
 <script>
-import router from '../router'
+import { mapMutations } from 'vuex'
+import { Api } from '../Api'
 export default {
   name: 'Login',
-  data() {
+  data: () => {
     return {
-      formData: {
-        email: '',
-        password: ''
-      }
+      email: '',
+      password: ''
     }
   },
   methods: {
-    async toggleLogin() {
-      if (this.$store.state.loggedIn) {
-        // Log out
-        this.$store.dispatch('logoutCustomer')
-        router.push('/login')
+    ...mapMutations(['setCustomer', 'setToken']),
+    async toggleLogin(e) {
+      e.preventDefault()
+      if (this.$store.getters.isLoggedIn) {
+        this.setCustomer(null)
+        this.setToken(null)
+        this.$router.push('/login')
       } else {
-        // Log in
-        this.$store.dispatch('loginCustomer', this.formData)
+        try {
+          const response = await Api.post('/login/customer', {
+            email: this.email,
+            password: this.password
+          })
+          if (response.status === 200) {
+            const { customer, token } = response.data
+
+            console.log('Customer:', customer)
+            console.log('Token:', token)
+
+            this.setCustomer(customer)
+            this.setToken(token)
+
+            this.$router.push('/myprofile')
+            console.log('Logged in, changing direction')
+          } else {
+            console.error('Authentication failed')
+          }
+        } catch (error) {
+          console.error('Login failed:', error)
+        }
       }
     }
   }
 }
 </script>
+
+
 <style scoped>
 .login-container {
   background-color: lightgreen;
@@ -80,11 +103,11 @@ export default {
   border-radius: 5px;
   width:400px;
   height: 100px;
-  margin: 40px auto; /* Center horizontally */
+  margin: 40px auto; 
   display: flex;
   flex-direction: column;
-  text-align: center; /* Center text */
-  min-height: 40vh; /* Makes the container at least the height of the viewport */
+  text-align: center; 
+  min-height: 40vh; 
 }
 
 .login-form {
@@ -93,11 +116,11 @@ export default {
 }
 
 .login-button {
-  background-color: lightblue; /* Change the background color on hover */
+  background-color: lightblue; 
   color: white;
 }
 
 .login-button:hover {
-  background-color: blue; /* Change the background color on hover */
+  background-color: blue; 
 }
 </style>

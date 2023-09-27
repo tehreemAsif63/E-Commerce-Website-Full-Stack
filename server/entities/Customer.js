@@ -1,4 +1,4 @@
-var mongoose=require("mongoose");
+var mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const customerSchema = new Schema({
@@ -18,12 +18,19 @@ const customerSchema = new Schema({
     type: String,
     required: true,
   },
-  profilePicUrl: {
+  address: {
+    type: String,
+
+  },
+  picture: {
     type: String,
   },
-  orders: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Order"
-  }
-  });
-  module.exports = mongoose.model("Customer", customerSchema);
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
+});
+
+module.exports = mongoose.model("Customer", customerSchema);

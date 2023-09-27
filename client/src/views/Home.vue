@@ -10,13 +10,12 @@
 <script>
 import ItemList from './ItemList.vue'
 import Cart from './Cart.vue'
-import Order from './Order.vue'
 
 export default {
   components: {
     ItemList,
-    Cart,
-    Order
+    Cart
+   
   },
   data() {
     return {
@@ -38,15 +37,14 @@ export default {
 
 <style scoped>
 .page-container {
-  /* Set the background image */
+
   background-image: url('@/assets/skye.jpg');
-  background-size: cover; /* Adjust as needed */
+  background-size: cover; 
   background-repeat: no-repeat;
-  background-attachment: fixed; /* To make it fixed if desired */
+  background-attachment: fixed;
 }
 
 .background-image {
-  /* Hide the image used for the background */
   display: none;
 }
 </style>

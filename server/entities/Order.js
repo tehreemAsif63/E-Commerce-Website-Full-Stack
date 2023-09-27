@@ -16,10 +16,6 @@ const orderSchema = new mongoose.Schema(
         ref: "Item",
       },
     ],
-    customer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer",
-    },
   }
 );
 

@@ -25,7 +25,13 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },    
+    {
+      path: '/visit',
+      name: 'Visit',
+      component: Visit 
     },
+
     {
       path: '/items',
       name: 'item',

@@ -47,7 +47,7 @@ export default {
 
           this.name = ''
           this.price = ''
-          // Clear the file input
+     
           this.$refs.imageInput.value = ''
         })
         .catch((error) => {

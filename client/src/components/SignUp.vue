@@ -2,70 +2,22 @@
   <div class="signup-container">
     <h1>Sign Up</h1>
     <b-form @submit.prevent="signup" class="signup-form">
-      <b-form-group
-        id="email-group"
-        label="Email:"
-        label-for="email"
-        label-cols-sm="2"
-        label-align-sm="right"
-      >
-        <b-form-input
-          id="email"
-          v-model="formData.email"
-          type="email"
-          required
-        ></b-form-input>
+      <b-form-group id="email-group" label="Email:" label-for="email" label-cols-sm="2" label-align-sm="right">
+        <b-form-input id="email" v-model="formData.email" type="email" required></b-form-input>
       </b-form-group>
-      <b-form-group
-        id="password-group"
-        label="Password:"
-        label-for="password"
-        label-cols-sm="2"
-        label-align-sm="right"
-      >
-        <b-form-input
-          id="password"
-          v-model="formData.password"
-          type="password"
-          required
-        ></b-form-input>
+      <b-form-group id="password-group" label="Password:" label-for="password" label-cols-sm="2" label-align-sm="right">
+        <b-form-input id="password" v-model="formData.password" type="password" required></b-form-input>
       </b-form-group>
-      <b-form-group
-        id="name-group"
-        label="Name:"
-        label-for="name"
-        label-cols-sm="2"
-        label-align-sm="right"
-      >
-        <b-form-input
-          id="name"
-          v-model="formData.name"
-          required
-        ></b-form-input>
+      <b-form-group id="name-group" label="Name:" label-for="name" label-cols-sm="2" label-align-sm="right">
+        <b-form-input id="name" v-model="formData.name" required></b-form-input>
       </b-form-group>
-      <b-form-group
-        id="lastName-group"
-        label="Last Name:"
-        label-for="lastName"
-        label-cols-sm="2"
-        label-align-sm="right"
-      >
-        <b-form-input
-          id="lastName"
-          v-model="formData.lastName"
-          required
-        ></b-form-input>
+      <b-form-group id="lastName-group" label="Last Name:" label-for="lastName" label-cols-sm="2" label-align-sm="right">
+        <b-form-input id="lastName" v-model="formData.lastName" required></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary" class="signup-button">Sign Up</b-button>
     </b-form>
     <router-link to="/login" class="login-link">Login</router-link>
-    <b-alert
-      v-if="errorMessage"
-      variant="danger"
-      dismissible
-      fade
-      class="error-message"
-    >
+    <b-alert v-if="errorMessage" variant="danger" dismissible fade class="error-message">
       {{ errorMessage }}
     </b-alert>
   </div>
@@ -126,13 +78,13 @@ export default {
   padding: 20px;
   border-radius: 5px;
   width: 400px;
-  margin: 40px auto; /* Center horizontally */
+  margin: 40px auto;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center vertically */
-  text-align: center; /* Center text */
-  min-height: 50vh; /* Makes the container at least the height of the viewport */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 50vh;
 }
 
 .signup-form {

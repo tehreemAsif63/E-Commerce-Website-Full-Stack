@@ -3,36 +3,47 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Customer = require("../entities/Customer");
-const Order = require("../entities/Order"); 
+const Order = require("../entities/Order");
+const secretJWTKey = require("./secretKey")
 
-// Signup Endpoint
+const verifyToken = (req, res, next) => {
+  const token = req.header('Authorization');
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. Token is missing.' });
+  }
+
+  try {
+
+    const decoded = jwt.verify(token, secretJWTKey);
+
+    req.user = decoded;
+
+    next();
+  } catch (err) {
+    res.status(401).json({ message: 'Invalid token.' });
+  }
+};
+
+
 router.post("/signup/customer", async (req, res) => {
   try {
     const { email, password, name, lastName } = req.body;
-
-    // Check if the email already exists in the database
     const existingCustomer = await Customer.findOne({ email });
     if (existingCustomer) {
       return res.status(400).json({ message: "Email already in use" });
     }
-
-    // Hash the password before storing it
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new customer
     const newCustomer = new Customer({
       email,
       password: hashedPassword,
       name,
       lastName,
     });
-
-    // Save the customer to the database
     await newCustomer.save();
-
-    // Generate a JWT token for the customer
-    const token = jwt.sign({ customerId: newCustomer._id }, "your-secret-key", {
-      expiresIn: "3d", // You can adjust the expiration time
+    const token = jwt.sign({ customerId: newCustomer._id }, secretJWTKey, {
+      expiresIn: "3d",
     });
 
     res.status(201).json({ token });
@@ -40,41 +51,73 @@ router.post("/signup/customer", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-// Login Endpoint
 router.post("/login/customer", async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Find the customer by email
     const customer = await Customer.findOne({ email });
-
-    // Check if the customer exists
     if (!customer) {
       return res.status(401).json({ message: "Authentication failed" });
     }
-
-    // Compare the provided password with the hashed password in the database
     const passwordMatch = await bcrypt.compare(password, customer.password);
 
     if (!passwordMatch) {
       return res.status(401).json({ message: "Authentication failed" });
     }
 
-    // Generate a JWT token for the customer
-    const token = jwt.sign({ customerId: customer._id }, "your-secret-key", {
-      expiresIn: "1h", // You can adjust the expiration time
+    const token = jwt.sign({ customerId: customer._id }, secretJWTKey, {
+      expiresIn: "3d",
     });
-
-    // Include the customerId in the response
-    res.status(200).json({ token, customerId: customer._id }); // Modify this line
-
+    res.status(200).json({ token, customer });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-// to find a customer by ID
+// GET all orders for a customer
+router.get('/customers/:customerId/orders', async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+    const customer = await Customer.findById(customerId).populate('orders');
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+    res.status(200).json({ orders: customer.orders });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// POST a new order for a customer
+router.post('/customers/:customerId/orders', async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+    const customer = await Customer.findById(customerId);
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+
+    // Create a new order
+    const newOrder = new Order({
+      title: req.body.title,
+      date: req.body.date,
+      items: req.body.items,
+      // Add other order attributes as needed
+    });
+
+    // Save the order
+    await newOrder.save();
+
+    // Update the customer's orders array with the new order's ID
+    customer.orders.push(newOrder._id);
+    await customer.save();
+
+    res.status(201).json({ message: 'Order created successfully', order: newOrder });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 const findCustomerById = async (req, res, next) => {
   try {
     const customer = await Customer.findById(req.params.id);
@@ -89,7 +132,7 @@ const findCustomerById = async (req, res, next) => {
 };
 
 // Create a new customer
-router.post("/customers", async (req, res) => {
+router.post("/customers", verifyToken, async (req, res) => {
   try {
     const customer = new Customer(req.body);
     await customer.save();
@@ -103,7 +146,7 @@ router.get("/customers", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
-  
+
   try {
     const customers = await Customer.find()
       .skip(skip)
@@ -118,45 +161,66 @@ router.get("/customers", async (req, res) => {
 router.get("/customers/:id", findCustomerById, (req, res) => {
   res.status(200).json(req.customer);
 });
+// Retrieve a customer by ID
+router.get("/customers/:id", async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+    res.status(200).json(customer);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
-//Fully replace a customer by ID
-router.put("/customers/:id", findCustomerById, async (req, res) => {
+// Update a customer by ID (PUT)
+router.put("/customers/:id", async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
+    if (!updatedCustomer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
     res.status(200).json(updatedCustomer);
   } catch (error) {
     res.status(400).json({ error: "Invalid customer data" });
   }
 });
-//partially update a customer
-router.patch("/customers/:id", findCustomerById, async (req, res) => {
+
+// Partially update a customer by ID (PATCH)
+router.patch("/customers/:id", async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }
     );
+    if (!updatedCustomer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
     res.status(200).json(updatedCustomer);
   } catch (error) {
     res.status(400).json({ error: "Invalid data" });
   }
 });
+
 // Delete a customer by ID
 router.delete("/customers/:id", async (req, res) => {
   try {
     const removedCustomer = await Customer.findByIdAndRemove(req.params.id);
     if (!removedCustomer) {
-      return res.status(404).send("Customer not found");
+      return res.status(404).json({ error: "Customer not found" });
     }
-    res.send(removedCustomer);
-  } catch (err) {
-    res.status(400).send(err);
+    res.status(200).json(removedCustomer);
+  } catch (error) {
+    res.status(400).json({ error: "Invalid data" });
   }
 });
+
 
 
 
