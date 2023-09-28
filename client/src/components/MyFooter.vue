@@ -15,6 +15,15 @@
       </div>     
    
     </div>
+    <div class="footer-content2">
+      <div class="official-terms">
+       <p>MIT License</p> 
+       <p>&copy; Copyright (c) [2023]</p> 
+       <p>Today: {{ currentDateTime }}</p>
+       <p></p>
+  </div>
+    </div>
+
   </footer>
 </template>
 
@@ -26,8 +35,8 @@ export default {
 
 <style scoped>
 footer {
-  background: #269706;
-  color: rgb(249, 242, 242);
+  background: #73aa69;
+  color: black;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -52,6 +61,12 @@ footer {
   font-weight: bold;
   font-size: 30px;
   margin-top: 5px;
+}
+.official-terms{
+  padding: 10px;
+  background-color:rgb(136, 183, 136);
+  margin: 5px ;
+  position:margin-bottom;
 }
 
 </style>
