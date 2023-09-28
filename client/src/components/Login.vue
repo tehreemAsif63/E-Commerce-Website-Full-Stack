@@ -67,15 +67,11 @@ export default {
           })
           if (response.status === 200) {
             const { customer, token } = response.data
-
             console.log('Customer:', customer)
             console.log('Token:', token)
-
             this.setCustomer(customer)
             this.setToken(token)
-
             this.$router.push('/myprofile')
-            console.log('Logged in, changing direction')
           } else {
             this.errorMessage = 'Authentication failed'
           }

@@ -7,7 +7,7 @@
         <p>Last Name: {{ customer.lastName }}</p>
         <p>Email: {{ customer.email }}</p>
         <p>Address: {{ customer.address }}</p>
-        <button @click="getMyOrders">MyOrders</button>
+        <button @click="getMyOrders">My Orders</button>
         <button @click="startEditing">Update Profile</button>
         <button @click="confirmDeleteProfile">Delete Profile</button>
         <div>
@@ -78,6 +78,7 @@ export default {
       try {
         const customerId = this.$store.state.customer._id
         if (!customerId) {
+          console.log('no customer id')
           return
         }
         const headers = { Authorization: `Bearer ${this.$store.state.token}` }

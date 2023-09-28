@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Customer = require("../entities/Customer");
 const Order = require("../entities/Order");
-const verifyToken = require("./authController")
-const secretJWTKey=require("./secretKey")
+const secretJWTKey=require("./secretKey");
+const verifyToken = require("./authController");
 
 router.post("/signup/customer", async (req, res) => {
   try {
@@ -50,7 +50,6 @@ router.post("/login/customer", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 router.post('/customers/validate-password', async (req, res) => {
   try {
@@ -112,7 +111,7 @@ router.get("/customers", async (req, res) => {
 
 
 // Endpoint for updating the customer's password
-router.put('/customers/:customerId', verifyToken, async (req, res) => {
+router.put('/customers/:customerId', async (req, res) => {
   try {
     const { customerId } = req.params;
     const { newPassword } = req.body;
@@ -160,6 +159,7 @@ router.delete("/customers/:id", async (req, res) => {
     res.status(400).json({ error: "Invalid data" });
   }
 });
+
 router.get('/customers/:customerId/orders', async (req, res) => {
   try {
     const customerId = req.params.customerId;

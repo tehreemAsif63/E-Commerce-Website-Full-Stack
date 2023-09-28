@@ -93,7 +93,7 @@ router.get('/items/:id/reviews', async (req, res) => {
 
 
 // POST a new review for a specific item by ID
-router.post('/items/:id/reviews',  async (req, res) => {
+router.post('/items/:id/reviews', async (req, res) => {
   const { rating, comment } = req.body;
   const itemId = req.params.id;
 
