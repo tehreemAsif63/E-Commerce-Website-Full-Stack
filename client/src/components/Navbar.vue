@@ -48,7 +48,7 @@ export default {
 </script>
   <style scoped>
   .navbar {
-    background-color: lightpink;
+    background-color: rgb(29, 113, 54);
     color: white;
     height: 90px;
     padding: 10px 0;
@@ -71,9 +71,6 @@ export default {
     
     }
 
-  .heart {
-  color: rgb(183, 39, 63);
-}
   .nav-links {
     list-style: none;
     display: flex;
@@ -101,7 +98,7 @@ export default {
 }
 
 .bg-lightgreen {
-  background-color: lightgreen;
+  background-color: rgb(56, 163, 54);
 }
   
   </style>

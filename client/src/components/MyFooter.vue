@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
 footer {
-  background: #89b589;
+  background: #5d933c;
   color: rgb(249, 242, 242);
   position: fixed;
   bottom: 0;
