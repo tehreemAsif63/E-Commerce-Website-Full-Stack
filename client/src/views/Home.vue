@@ -1,40 +1,50 @@
 <template>
-  <div>
-    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App">
-      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >Get Message from Server</b-button>
-      <p>Message from the server:<br/>
-      {{ message }}</p>
-    </b-jumbotron>
+  <div class="page-container">
+    <item-list @add-to-cart="addToCart"></item-list>
+    <cart :cart="cart" @remove-from-cart="removeFromCart"></cart>
+    <order :cart="cart" />
+    <img src="@/assets/skye.jpg" alt="Background Image" class="background-image">
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import { Api } from '@/Api'
+import ItemList from './ItemList.vue'
+import Cart from './Cart.vue'
 
 export default {
-  name: 'home',
+  components: {
+    ItemList,
+    Cart
+   
+  },
   data() {
     return {
-      message: 'none'
+      cart: []
     }
   },
   methods: {
-    getMessage() {
-      Api.get('/')
-        .then(response => {
-          this.message = response.data.message
-        })
-        .catch(error => {
-          this.message = error
-        })
+    addToCart(item) {
+      this.cart.push(item)
+    },
+    removeFromCart(index) {
+      if (index >= 0 && index < this.cart.length) {
+        this.cart.splice(index, 1)
+      }
     }
   }
 }
 </script>
 
-<style>
-.btn_message {
-  margin-bottom: 1em;
+<style scoped>
+.page-container {
+
+  background-image: url('@/assets/skye.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.background-image {
+  display: none;
 }
 </style>
