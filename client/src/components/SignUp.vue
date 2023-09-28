@@ -13,6 +13,7 @@
       label-for="password" label-cols-sm="2" label-align-sm="right">
         <b-form-input id="password" v-model="formData.password" 
         type="password" required></b-form-input>
+
       </b-form-group>
 
       <b-form-group id="name-group" label="Name:" 
@@ -93,7 +94,11 @@ export default {
   text-align: center;
   min-height: 50vh;
 }
-
+.error-message {
+  color: red;
+  font-size: 14px; 
+  margin-top: 5px; 
+}
 .signup-form {
   margin-top: 20px;
 }
