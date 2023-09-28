@@ -10,9 +10,6 @@ const customerRoute = require('./controllers/customerController');
 const itemRoute = require('./controllers/itemController');
 const orderRoute = require('./controllers/orderController');
 const reviewRoute = require('./controllers/reviewController');
-const authRoute = require("./controllers/authController")
-
-
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/web';
 var port = process.env.PORT || 3000;
@@ -43,7 +40,6 @@ app.use('/api', customerRoute);
 app.use('/api', itemRoute);
 app.use('/api', orderRoute);
 app.use('/api',reviewRoute);
-app.use('/api',authRoute);
 // Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
