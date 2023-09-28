@@ -12,24 +12,8 @@
 
       <div class="footer-section">
         <router-link to="/visit" class="footer-heading">Visit Us</router-link>
-      </div>
-
-      <div class="footer-icons">
-        <i class="icon">
-          <img src="/images/cod-footer">
-        </i>
-        <i class="icon">
-          <img src="/images/visa">
-        </i>
-
-        <div class="gitlab-link">                   
-        <h4>https://git.chalmers.se/courses/dit342/2023/group-31-web</h4>
-      </div>
-
-      </div>
-      
+      </div>     
    
-
     </div>
   </footer>
 </template>
@@ -42,7 +26,7 @@ export default {
 
 <style scoped>
 footer {
-  background: #89afc3;
+  background: #89b589;
   color: rgb(249, 242, 242);
   position: fixed;
   bottom: 0;
@@ -52,11 +36,11 @@ footer {
 }
 
 .footer-content {
-  text-align: center;
+  text-align: left;
   height: 25.5%; 
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+  align-items: left;
+  justify-content: space-around;
 }
 
 .footer-section {
@@ -66,28 +50,8 @@ footer {
 .footer-heading {
   color: rgb(248, 250, 252);
   font-weight: bold;
-  font-size: 50px;
+  font-size: 30px;
   margin-top: 5px;
-}
-.footer-icons {
-  display: flex;
-  align-items: right;
-  justify-content: flex-end; /* Align to the right */
-}
-
-.footer-icons .icon {
-  margin-left: 30px;
-  margin-right: 20px;
-  width: 5px;
-  height: 5px;
-}
-
-.gitlab-link{
-   color: rgb(248, 250, 252);
-  font-style: italic;
-  font-size:1px;
-  align-items: right;
-  justify-content: space-evenly;
 }
 
 </style>
