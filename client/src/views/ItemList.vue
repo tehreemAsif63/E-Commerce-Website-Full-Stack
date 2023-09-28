@@ -9,6 +9,7 @@
             {{ item.price }}
           </b-card-text>
           <b-button class='button' @click="addToCart(item)" variant="primary">Add to Cart</b-button>
+          <Review :itemId="item._id"></Review>
         </b-card>
       </div>
     </div>
@@ -16,7 +17,11 @@
 </template>
 <script>
 import { Api } from '../Api'
+import Review from './Review.vue'
 export default {
+  components: {
+    Review
+  },
   data() {
     return {
       items: []
@@ -32,7 +37,7 @@ export default {
           this.items = response.data
         })
         .catch((error) => {
-          console.error('Error fetching items:', error)
+          console.log(error)
         })
     },
     addToCart(item) {

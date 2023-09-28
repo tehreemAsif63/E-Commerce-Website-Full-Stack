@@ -2,18 +2,18 @@
   <div id="app">
     <Navbar />
     <router-view />
-    <MyFooter />
+    <Visit></Visit>
     
   </div>
 </template>
 <script>
 import Navbar from '@/components/Navbar.vue'
-import MyFooter from '@/components/MyFooter.vue'
+import Visit from './views/Visit.vue'
 export default {
   name: 'app',
   components: {
     Navbar,
-    MyFooter
+    Visit
   }
 }
 </script>

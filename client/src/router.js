@@ -1,19 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Item from './views/ItemList.vue'
-import Customer from './views/Customer.vue'
 import MyProfile from './views/MyProfile.vue'
 import SignUp from './components/SignUp.vue'
 import Login from './components/Login'
-import Cart from './views/Cart.vue'
 import Logout from './components/Logout'
-import CreateItem from './components/createItem.vue'
 import AboutUs from '@/views/AboutUs.vue'
 import Help from '@/views/Help.vue'
 import Visit from '@/views/Visit.vue'
-
-
 
 Vue.use(Router)
 
@@ -26,27 +20,6 @@ export default new Router({
       name: 'home',
       component: Home
     },    
-    {
-      path: '/visit',
-      name: 'Visit',
-      component: Visit 
-    },
-
-    {
-      path: '/items',
-      name: 'item',
-      component: Item
-    },
-    {
-      path: '/customers',
-      name: 'customer',
-      component: Customer
-    },
-    {
-      path: '/mycart',
-      name: 'cart',
-      component: Cart
-    },
     {
       path: '/myprofile',
       name: 'MyProfile',
@@ -67,14 +40,9 @@ export default new Router({
       name: 'Logout',
       component: Logout
     },
-    {
-      path: '/createItem',
-      name: 'createItem',
-      component: CreateItem
-    },
     { 
       path: '/about',
-      name: 'About us', 
+      name: 'Aboutus', 
       component: AboutUs 
     },
     {

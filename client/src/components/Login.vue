@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h1>{{ $store.getters.isLoggedIn ? 'Logout' : 'Login' }}</h1>
+    <h1>Login</h1>
     <b-form @submit.prevent="toggleLogin" class="login-form">
       <b-form-group
         id="email-group"
@@ -8,13 +8,13 @@
         label-for="email"
         label-cols-sm="2"
         label-align-sm="right"
-      >
-        <b-form-input
+      ><b-form-input
           id="email"
           v-model="email"
           required
         ></b-form-input>
       </b-form-group>
+
       <b-form-group
         id="password-group"
         label="Password:"
@@ -30,17 +30,11 @@
         ></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary" class="login-button">
-        {{ $store.getters.isLoggedIn ? 'Logout' : 'Login' }}
+       Login
       </b-button>
     </b-form>
-    <b-alert
-      v-if="$store.state.errorMessage"
-      variant="danger"
-      dismissible
-      fade
-      class="error-message"
-    >
-      {{ $store.state.errorMessage }}
+    <b-alert v-if="errorMessage" variant="danger" dismissible fade class="error-message">
+      {{ errorMessage }}
     </b-alert>
     <router-link to="/signup" class="signup-link">Sign up</router-link>
   </div>
@@ -83,10 +77,10 @@ export default {
             this.$router.push('/myprofile')
             console.log('Logged in, changing direction')
           } else {
-            console.error('Authentication failed')
+            this.errorMessage = 'Authentication failed'
           }
         } catch (error) {
-          console.error('Login failed:', error)
+          this.errorMessage = 'Authentication failed'
         }
       }
     }

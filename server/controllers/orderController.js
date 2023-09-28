@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../entities/Order");
 const Item = require("../entities/Item");
+const verifyToken = require("./authController")
 
 // Create a new order
 router.post("/orders", async (req, res) => {
@@ -29,8 +30,9 @@ router.get("/orders", async (req, res) => {
     res.status(400).send(err);
   }
 });
+
 // Delete all orders
-router.delete("/orders", async (req, res) => {
+router.delete("/orders",  async (req, res) => {
   try {
     await Order.deleteMany({}); 
     
@@ -81,12 +83,11 @@ router.patch("/orders/:orderId", async (req, res) => {
 router.post("/orders/:orderId/items", async (req, res) => {
   try {
     if (!req.body.name || !req.body.price) {
-      return res.status(400).send("Name and price are required fields.");
+      return res.status(400);
     }
     const item = new Item({
       name: req.body.name,
       price: req.body.price,
-      
     });
     const savedItem = await item.save();
     const updatedOrder = await Order.findByIdAndUpdate(
@@ -94,17 +95,16 @@ router.post("/orders/:orderId/items", async (req, res) => {
       { $push: { items: savedItem._id } },
       { new: true }
     );
-
     if (!updatedOrder) {
       return res.status(404).send("Order not found");
     }
-
     res.send(updatedOrder);
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 // Get all items for a specific order in JSON format
 router.get("/orders/:orderId/items", async (req, res) => {

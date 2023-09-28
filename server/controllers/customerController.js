@@ -1,30 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const Customer = require("../entities/Customer");
 const Order = require("../entities/Order");
-const secretJWTKey = require("./secretKey")
-
-const verifyToken = (req, res, next) => {
-  const token = req.header('Authorization');
-
-  if (!token) {
-    return res.status(401).json({ message: 'Access denied. Token is missing.' });
-  }
-
-  try {
-
-    const decoded = jwt.verify(token, secretJWTKey);
-
-    req.user = decoded;
-
-    next();
-  } catch (err) {
-    res.status(401).json({ message: 'Invalid token.' });
-  }
-};
-
+const verifyToken = require("./authController")
+const secretJWTKey=require("./secretKey")
 
 router.post("/signup/customer", async (req, res) => {
   try {
@@ -34,7 +15,6 @@ router.post("/signup/customer", async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const newCustomer = new Customer({
       email,
       password: hashedPassword,
@@ -45,12 +25,12 @@ router.post("/signup/customer", async (req, res) => {
     const token = jwt.sign({ customerId: newCustomer._id }, secretJWTKey, {
       expiresIn: "3d",
     });
-
     res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 router.post("/login/customer", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -59,11 +39,9 @@ router.post("/login/customer", async (req, res) => {
       return res.status(401).json({ message: "Authentication failed" });
     }
     const passwordMatch = await bcrypt.compare(password, customer.password);
-
     if (!passwordMatch) {
       return res.status(401).json({ message: "Authentication failed" });
     }
-
     const token = jwt.sign({ customerId: customer._id }, secretJWTKey, {
       expiresIn: "3d",
     });
@@ -73,93 +51,35 @@ router.post("/login/customer", async (req, res) => {
   }
 });
 
-// GET all orders for a customer
-router.get('/customers/:customerId/orders', async (req, res) => {
-  try {
-    const customerId = req.params.customerId;
-    const customer = await Customer.findById(customerId).populate('orders');
-    if (!customer) {
-      return res.status(404).json({ message: 'Customer not found' });
-    }
-    res.status(200).json({ orders: customer.orders });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
 
-// POST a new order for a customer
-router.post('/customers/:customerId/orders', async (req, res) => {
+router.post('/customers/validate-password', async (req, res) => {
   try {
-    const customerId = req.params.customerId;
+    const { customerId, oldPassword } = req.body;
     const customer = await Customer.findById(customerId);
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
+    }pt
+    const passwordMatch = await bcrypt.compare(oldPassword, customer.password);
+    if (passwordMatch) {
+      res.status(200).json({ message: 'Password validation successful' });
+    } else {
+      res.status(401).json({ message: 'Invalid old password' });
     }
-
-    // Create a new order
-    const newOrder = new Order({
-      title: req.body.title,
-      date: req.body.date,
-      items: req.body.items,
-      // Add other order attributes as needed
-    });
-
-    // Save the order
-    await newOrder.save();
-
-    // Update the customer's orders array with the new order's ID
-    customer.orders.push(newOrder._id);
-    await customer.save();
-
-    res.status(201).json({ message: 'Order created successfully', order: newOrder });
   } catch (error) {
+    console.error('Error validating old password:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-
-const findCustomerById = async (req, res, next) => {
-  try {
-    const customer = await Customer.findById(req.params.id);
-    if (!customer) {
-      return res.status(404).json({ error: "Customer not found" });
-    }
-    req.customer = customer;
-    next();
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-};
-
 // Create a new customer
-router.post("/customers", verifyToken, async (req, res) => {
+router.post("/customers", async (req, res) => {
   try {
     const customer = new Customer(req.body);
     await customer.save();
     res.status(201).json(customer);
   } catch (error) {
-    res.status(400).json({ error: "Invalid customer data" });
+    res.status(400).json();
   }
-});
-//retreive all customers
-router.get("/customers", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
-
-  try {
-    const customers = await Customer.find()
-      .skip(skip)
-      .limit(limit);
-    res.status(200).json(customers);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// retreive a customer by ID
-router.get("/customers/:id", findCustomerById, (req, res) => {
-  res.status(200).json(req.customer);
 });
 // Retrieve a customer by ID
 router.get("/customers/:id", async (req, res) => {
@@ -174,24 +94,44 @@ router.get("/customers/:id", async (req, res) => {
   }
 });
 
-// Update a customer by ID (PUT)
-router.put("/customers/:id", async (req, res) => {
+//retreive all customers
+router.get("/customers", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
   try {
-    const updatedCustomer = await Customer.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedCustomer) {
-      return res.status(404).json({ error: "Customer not found" });
-    }
-    res.status(200).json(updatedCustomer);
+    const customers = await Customer.find()
+      .skip(skip)
+      .limit(limit);
+    res.status(200).json(customers);
   } catch (error) {
-    res.status(400).json({ error: "Invalid customer data" });
+    res.status(500).json();
   }
 });
 
-// Partially update a customer by ID (PATCH)
+
+// Endpoint for updating the customer's password
+router.put('/customers/:customerId', verifyToken, async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    const { newPassword } = req.body;
+    const customer = await Customer.findById(customerId);
+    if (!customer) {
+      return res.status(404).json();
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    customer.password = hashedPassword;
+    await customer.save();
+
+    res.status(200).json();
+  } catch (error) {
+    res.status(500).json();
+  }
+});
+
+
+// Partially update a specific customer 
 router.patch("/customers/:id", async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
@@ -220,6 +160,41 @@ router.delete("/customers/:id", async (req, res) => {
     res.status(400).json({ error: "Invalid data" });
   }
 });
+router.get('/customers/:customerId/orders', async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+    const customer = await Customer.findById(customerId).populate('orders');
+    if (!customer) {
+      return res.status(404).json();
+    }
+    res.status(200).json({ orders: customer.orders });
+  } catch (error) {
+    res.status(500).json();
+  }
+});
+
+router.post('/customers/:customerId/orders', async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+    const customer = await Customer.findById(customerId);
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+    const newOrder = new Order({
+      title: req.body.title,
+      date: req.body.date,
+      items: req.body.items,
+    });
+    await newOrder.save();
+    customer.orders.push(newOrder._id);
+    await customer.save();
+
+    res.status(201).json({ order: newOrder });
+  } catch (error) {
+    res.status(500).json();
+  }
+});
+
 
 
 

@@ -16,11 +16,9 @@
           </div>
           <button @click="removeFromCart(index)" class="remove-button">Remove</button>
         </div>
-        <p class="total-price">Total Price: ${{ getTotalPrice() }}</p>
-        <order :cart="cart" />
-        
+        <p class="total-price">Total Price: {{ getTotalPrice() }} SEK</p>
+        <order :cart="cart" /> 
       </div>
-      
     </div>
   </div>
 </template>
@@ -49,7 +47,7 @@ export default {
 <style>
 .shopping-cart-container {
   position: fixed;
-  top: 60px; 
+  top: 80px; 
   right: 10px; 
   z-index: 999;
 }

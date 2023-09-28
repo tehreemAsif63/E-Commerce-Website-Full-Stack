@@ -1,26 +1,23 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-lightgreen">
     <div class="container">
-      <router-link to="/" class="navbar-brand text-script text-white">Your Shop</router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <router-link to="/" class="navbar-brand text-script text-white">Amazong</router-link>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" 
+      data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <router-link to="/" class="nav-link text-white">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/items" class="nav-link text-white">Products</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/customers" class="nav-link text-white">About</router-link>
+            <router-link to="/about" class="nav-link text-white">About</router-link>
           </li>
           <li class="nav-item">
             <router-link :to="loginLink" class="nav-link text-white">{{ loginText }}</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link text-white">🛒</router-link>
           </li>
         </ul>
       <div>

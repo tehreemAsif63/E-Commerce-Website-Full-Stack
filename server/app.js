@@ -9,10 +9,11 @@ var history = require('connect-history-api-fallback');
 const customerRoute = require('./controllers/customerController');
 const itemRoute = require('./controllers/itemController');
 const orderRoute = require('./controllers/orderController');
-const cartRoute = require('./controllers/cartController');
+const reviewRoute = require('./controllers/reviewController');
+const authRoute=require('./controllers/authController')
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/web';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/serverTestDB';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -27,9 +28,6 @@ mongoose.connect(mongoURI).catch(function(err) {
 
 // Create Express app
 var app = express();
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/uploads', express.static('uploads'));
-
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -40,11 +38,11 @@ app.options('*', cors());
 app.use(cors());
 
 
-
 app.use('/api', customerRoute);
 app.use('/api', itemRoute);
 app.use('/api', orderRoute);
-app.use('/api',cartRoute);
+app.use('/api',reviewRoute);
+app.use('/api',authRoute);
 // Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});

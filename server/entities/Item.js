@@ -14,7 +14,13 @@ const itemSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-  }
+  },
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Item", itemSchema);
