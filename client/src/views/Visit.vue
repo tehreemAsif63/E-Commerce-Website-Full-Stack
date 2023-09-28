@@ -1,44 +1,43 @@
 <template>
   <div class="visit-us">
-    <h2 class="section-heading">Visit Us</h2>
-    <p class="pargraphing">Planning to visit our physical store? We would love to see yoou there! Here are our details: </p> 
-    <p></p>
-    <p class="pargraphing">1122 Wonderland, Gothenburg, Sweden </p>
+    <p>MIT License</p> 
+    <p>&copy; Copyright (c) [2023]</p> 
+    <p>Today: {{ currentDateTime }}</p>
         <p></p>
-    <p class="pargraphing"> Monday to Friday, 10:00am-6:00pm </p> 
   </div>
 </template>
 
 <script>
 export default {
   name: 'VisitUs',
-  name: 'Terms',
-  
+  data() {
+    return {
+      currentDateTime: ''
+    }
+  },
+  created() {
+    this.updateCurrentDateTime()
+  },
+  methods: {
+    updateCurrentDateTime() {
+      const now = new Date()
+      const year = now.getFullYear()
+      const date = now.toLocaleDateString()
+      const time = now.toLocaleTimeString()
+      this.currentDateTime = `${date} ${time}, ${year}`
+    }
+  }
 }
 </script>
 
 <style scoped>
 .visit-us {
   padding: 100px;
-  border: 10px solid #a2cfa7;
-  border-radius: 10px;
-  background-color: #81b97bcc;
-  margin: 20px ;
-}
-
-.section-heading {
-  font-size: 70px;
-  color: azure;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
-.paragraphing {
-  
-  font-size: 16px;
-  margin-bottom: 10px;
-  line-height: 1.6;
+  border: 4px solid lightgreen;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  margin: 10px ;
+  position:margin-bottom;
 }
 
 </style>

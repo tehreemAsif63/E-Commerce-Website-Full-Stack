@@ -14,7 +14,7 @@
             <router-link to="/" class="nav-link text-white">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/items" class="nav-link text-white">Products</router-link>
+            <router-link to="/about" class="nav-link text-white">About</router-link>
           </li>
           <li class="nav-item">
             <router-link :to="loginLink" class="nav-link text-white">{{ loginText }}</router-link>
@@ -45,7 +45,7 @@ export default {
 </script>
   <style scoped>
   .navbar {
-    background-color: rgb(29, 113, 54);
+    background-color: lightpink;
     color: white;
     height: 90px;
     padding: 10px 0;
@@ -68,6 +68,9 @@ export default {
     
     }
 
+  .heart {
+  color: rgb(183, 39, 63);
+}
   .nav-links {
     list-style: none;
     display: flex;
@@ -95,7 +98,7 @@ export default {
 }
 
 .bg-lightgreen {
-  background-color: rgb(56, 163, 54);
+  background-color: lightgreen;
 }
   
   </style>
