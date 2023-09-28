@@ -5,6 +5,10 @@
       <b-form-group id="email-group" label="Email:" label-for="email" label-cols-sm="2" label-align-sm="right">
         <b-form-input id="email" v-model="formData.email" type="email" required></b-form-input>
       </b-form-group>
+
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+
       <b-form-group id="password-group" label="Password:" label-for="password" label-cols-sm="2" label-align-sm="right">
         <b-form-input id="password" v-model="formData.password" type="password" required></b-form-input>
       </b-form-group>
@@ -51,8 +55,6 @@ export default {
 
         if (response.data.token) {
           localStorage.setItem('token', response.data.token)
-
-
           this.$router.push('/mypofile')
         }
       } catch (error) {
@@ -86,7 +88,11 @@ export default {
   text-align: center;
   min-height: 50vh;
 }
-
+.error-message {
+  color: red;
+  font-size: 14px; 
+  margin-top: 5px; 
+}
 .signup-form {
   margin-top: 20px;
 }
