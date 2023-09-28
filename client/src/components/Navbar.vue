@@ -14,9 +14,6 @@
             <router-link to="/items" class="nav-link text-white">Products</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/customers" class="nav-link text-white">About</router-link>
-          </li>
-          <li class="nav-item">
             <router-link :to="loginLink" class="nav-link text-white">{{ loginText }}</router-link>
           </li>
           <li class="nav-item">
