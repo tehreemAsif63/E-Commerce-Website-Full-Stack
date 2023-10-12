@@ -1,32 +1,22 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-lightgreen">
-    <div class="container">
-      <router-link to="/" class="navbar-brand text-script text-white">Amazong</router-link>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" 
-      data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link text-white">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/items" class="nav-link text-white">Products</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="loginLink" class="nav-link text-white">{{ loginText }}</router-link>
-          </li>
-        </ul>
-      <div>
-      <Cart></Cart>
-    </div>
-      </div>
-    </div>
-  </nav>
+  <b-navbar toggleable="lg" type="light" class="custom-navbar">
+    <b-container>
+      <b-navbar-brand to="/" class="text-script text-white">Amazong</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-nav class="ml-auto">
+          <b-nav-item to="/" class="custom-nav-item">Home</b-nav-item>
+          <b-nav-item to="/about" class="custom-nav-item">About us</b-nav-item>
+          <b-nav-item :to="loginLink" class="custom-nav-item">{{ loginText }}</b-nav-item>
+        </b-nav>
+        <div>
+          <Cart></Cart>
+        </div>
+      </b-collapse>
+    </b-container>
+  </b-navbar>
 </template>
+
 <script>
 import Cart from '../views/Cart.vue'
 export default {
@@ -43,59 +33,16 @@ export default {
   }
 }
 </script>
-  <style scoped>
-  .navbar {
-    background-color: rgb(29, 113, 54);
-    color: white;
-    height: 90px;
-    padding: 10px 0;
-    font-size: large;
-  }
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Script Font', cursive;
-  }
-  .logo {
-    font-size: 30px;
-    font-weight: bolder;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-block-end: 5%;
-    margin-right: 10%;
-    
-    }
-
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 150px;
-    font-size: 20px;
-    font-weight: bold;
-    margin-right: auto;
-  }
-  .nav-links li {
-    padding: 0;
-    margin: 0;
-  }
-  .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-  }
-  .cart-logo {
-    font-size: 30px;
-    cursor: pointer;
-    order: 2;
-  }
-  .text-script {
-  font-family: 'Script Font', cursive; 
-}
-
-.bg-lightgreen {
-  background-color: rgb(56, 163, 54);
-}
+<style scoped>
+.custom-navbar {
+  background-color: lightgreen;
+  padding: 30px;
   
-  </style>
+}
+.custom-nav-item {
+  color: white;
+}
+.text-white{
+
+}
+</style>

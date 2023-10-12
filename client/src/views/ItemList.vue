@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <h2>items for sale</h2>
-    <div class="item-card-container">
-      <div v-for="item in items" :key="item._id" class="item-card">
-        <b-card :title="item.name" :img-src="item.image" img-alt="Item Image" img-top tag="article"
-          style="max-width: 20rem;" class="mb-2">
-          <b-card-text>
+   <div>
+    <b-row class="items-list" >
+      <div v-for="item in items" :key="item._id" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+        <b-card :title="item.name" :img-src="item.image" img-alt="Item Image" img-top tag="article" class="mb-2">
+          <b-card-text class="price">
             {{ item.price }}
           </b-card-text>
-          <b-button class='button' @click="addToCart(item)" variant="primary">Add to Cart</b-button>
-          <Review :itemId="item._id"></Review>
+          <b-button class="button" @click="addToCart(item)" variant="success">Add to Cart</b-button>
+          <Review :itemId="item._id" :reviews="item.reviews"></Review>
         </b-card>
       </div>
-    </div>
+    </b-row>
   </div>
 </template>
 <script>
@@ -47,21 +45,13 @@ export default {
 }
 </script>
 <style scoped>
-.item-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-left: 10px;
-}
-
-.item-card {
-  flex: 0 0 calc(15% - 20px);
-  margin-right: 20px;
-  margin-bottom: 20px;
-}
-
 .button {
   background-color: lightgreen;
   color: white;
+}
+.items-list {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 </style>

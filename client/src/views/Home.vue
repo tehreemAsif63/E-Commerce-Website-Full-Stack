@@ -1,11 +1,27 @@
 <template>
   <div class="page-container">
-    <item-list @add-to-cart="addToCart"></item-list>
-    <cart :cart="cart" @remove-from-cart="removeFromCart"></cart>
-    <order :cart="cart" />
-    <img src="@/assets/skye.jpg" alt="Background Image" class="background-image">
+    <b-row>
+      <b-col lg="8">
+        <item-list @add-to-cart="addToCart"></item-list>
+      </b-col>
+      <b-col lg="9">
+        <cart :cart="cart" @remove-from-cart="removeFromCart"></cart>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <order :cart="cart" />
+      </b-col>
+    </b-row>
+    <b-img
+      src="@/assets/skye.jpg"
+      alt="Background Image"
+      class="background-image"
+      fluid
+    ></b-img>
   </div>
 </template>
+
 
 <script>
 import ItemList from './ItemList.vue'

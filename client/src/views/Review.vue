@@ -56,10 +56,7 @@ export default {
         return
       }
       try {
-        const headers = {
-          Authorization: `Bearer ${this.$store.state.token}`
-        }
-        await Api.post(`/items/${this.itemId}/reviews`, this.review, { headers })
+        await Api.post(`/items/${this.itemId}/reviews`, this.review)
         alert('Review submitted successfully!')
         this.submittedReview = {
           rating: this.review.rating,
@@ -79,7 +76,7 @@ export default {
   
   
 <style scoped>
-.comment {
+#comment {
   display: block;
   margin-bottom: 5px;
   font-size: 14px;
@@ -90,5 +87,8 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+}
+p {
+  color:black;
 }
 </style>

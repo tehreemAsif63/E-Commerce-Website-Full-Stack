@@ -1,31 +1,37 @@
 <template>
-  <div class="shopping-cart-container">
-    <div class="shopping-cart">
-      <h2>Shopping Cart</h2>
-      <div v-if="cart.length === 0">
-        Your cart is empty.
-      </div>
-      <div v-else>
-        <div v-for="(item, index) in cart" :key="index" class="cart-item">
-          <div class="cart-item-info">
-            <img :src="item.image" alt="Item Image" class="item-image" />
-            <div class="item-details">
-              <h6>{{ item.name }}</h6>
-              <p>{{ item.price }}</p>
+  <b-container fluid>
+    <b-row>
+        <div class="shopping-cart-container">
+          <div class="shopping-cart">
+            <h4>Shopping Cart</h4>
+            <div v-if="cart.length === 0">
+              Your cart is empty.
+            </div>
+            <div v-else>
+              <div v-for="(item, index) in cart" :key="index" class="cart-item">
+                <div class="cart-item-info">
+                  <b-img :src="item.image" alt="Item Image" class="item-image"></b-img>
+                  <div class="item-details">
+                    <h6>{{ item.name }}</h6>
+                    <p>{{ item.price }}</p>
+                  </div>
+                </div>
+                <b-button @click="removeFromCart(index)"  class="remove-button">
+                  Remove
+                </b-button>
+              </div>
+              <p class="total-price">Total Price: {{ getTotalPrice() }} SEK</p>
+              <order :cart="cart" />
             </div>
           </div>
-          <button @click="removeFromCart(index)" class="remove-button">Remove</button>
         </div>
-        <p class="total-price">Total Price: {{ getTotalPrice() }} SEK</p>
-        <order :cart="cart" /> 
-      </div>
-    </div>
-  </div>
+    </b-row>
+  </b-container>
 </template>
-
 <script>
 import Order from './Order.vue'
 export default {
+  name: 'Cart',
   components: {
     Order
   },
@@ -47,7 +53,7 @@ export default {
 <style>
 .shopping-cart-container {
   position: fixed;
-  top: 80px; 
+  top: 100px; 
   right: 10px; 
   z-index: 999;
 }
