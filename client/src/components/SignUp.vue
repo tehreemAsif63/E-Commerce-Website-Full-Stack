@@ -1,40 +1,20 @@
 <template>
   <div class="signup-container">
     <h1>Sign Up</h1>
-    <b-form @submit.prevent="signup" class="signup-form">
-      
-      <b-form-group id="email-group" label="Email:" 
-      label-for="email" label-cols-sm="2" label-align-sm="right">
-        <b-form-input id="email" v-model="formData.email" 
-        type="email" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="password-group" label="Password:" 
-      label-for="password" label-cols-sm="2" label-align-sm="right">
-        <b-form-input id="password" v-model="formData.password" 
-        type="password" required></b-form-input>
-
-      </b-form-group>
-
-      <b-form-group id="name-group" label="Name:" 
-      label-for="name" label-cols-sm="2" label-align-sm="right">
-        <b-form-input id="name" v-model="formData.name" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="lastName-group" label="Last Name:" 
-      label-for="lastName" label-cols-sm="2" label-align-sm="right">
-        <b-form-input id="lastName" v-model="formData.lastName" 
-        required></b-form-input>
-      </b-form-group>
-      
-      <b-button type="submit" variant="primary" 
-      class="signup-button">Sign Up</b-button>
+    <b-form @submit.prevent="signup" class="singup-form">
+      <b-form-input id="email" v-model="formData.email" type="email" required placeholder="Email"
+        class="rounded-pill"></b-form-input>
+      <b-form-input id="password" v-model="formData.password" type="password" required placeholder="Password"
+        class="rounded-pill"></b-form-input>
+      <b-form-input id="name" v-model="formData.name" required placeholder="Name" class="rounded-pill"></b-form-input>
+      <b-form-input id="lastName" v-model="formData.lastName" required placeholder="Last Name"
+        class="rounded-pill"></b-form-input>
+      <b-button type="submit" variant="primary" class="signup-button">
+        Sign Up
+      </b-button>
     </b-form>
     <router-link to="/login" class="login-link">Login</router-link>
-
-    <b-alert v-if="errorMessage" variant="danger" dismissible fade class="error-message">
-      {{ errorMessage }}
-    </b-alert>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
   </div>
 </template>
   
@@ -59,10 +39,12 @@ export default {
         if (!this.validateForm()) {
           return
         }
-        const response = await Api.post('/signup/customer', this.formData)
-        if (response.data.token) {
-          localStorage.setItem('token', response.data.token)
-          this.$router.push('/mypofile')
+        const response = await Api.post('/customers', this.formData)
+        if (response.status === 201) {
+          this.$router.push('/login')
+        } else {
+          const responseData = await response.json()
+          this.errorMessage = responseData.message
         }
       } catch (error) {
         this.errorMessage = 'Signup failed. Please check your information and try again.'
@@ -83,22 +65,32 @@ export default {
 .signup-container {
   background-color: lightgreen;
   color: white;
-  padding: 20px;
+  padding: 5%;
   border-radius: 5px;
-  width: 400px;
-  margin: 40px auto;
+  margin: 2% auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-  min-height: 50vh;
+  min-height: 50%;
+  width: 50%;
 }
+@media (min-width: 992px) {
+  .signup-container {
+    width: 33%;
+  }
+}
+
+
 .error-message {
   color: red;
-  font-size: 14px; 
-  margin-top: 5px; 
+  font-size: 14px;
+  margin-top: 5px;
 }
+
+.rounded-pill {
+  margin-top: 5px;
+}
+
 .signup-form {
   margin-top: 20px;
 }
@@ -106,6 +98,7 @@ export default {
 .signup-button {
   background-color: lightblue;
   color: white;
+  margin-top: 5px;
 }
 
 .signup-button:hover {

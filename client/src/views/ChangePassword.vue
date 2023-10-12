@@ -8,7 +8,7 @@
             <input type="password" id="newPassword" v-model="passwordData.newPassword" required>
             <label for="confirmPassword">Confirm Password:</label>
             <input type="password" id="confirmPassword" v-model="passwordData.confirmPassword" required>
-            <button type="submit">Change Password</button>
+            <button type="submit">Confrim</button>
         </form>
     </div>
 </template>

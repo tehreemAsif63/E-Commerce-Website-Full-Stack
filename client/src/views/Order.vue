@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="confirmPlaceOrder">Place Order</button>
+    <button @click="confirmOrder">Checkout</button>
   </div>
 </template>
 
@@ -31,20 +31,18 @@ export default {
         date: new Date().toISOString()
       }
       try {
-        const headers = {
-          Authorization: `Bearer ${this.$store.state.token}`
-        }
-        const response = await Api.post(`/customers/${customerId}/orders`, newOrder, { headers })
+        const response = await Api.post(`/customers/${customerId}/orders`, newOrder)
         if (response.status === 201) {
           this.$emit('clear-cart')
           this.$router.push('/myprofile')
+          console.log(newOrder)
         } else {
-          alert('something went wront')
+          alert('Something went wront')
         }
       } catch (error) {
       }
     },
-    confirmPlaceOrder() {
+    confirmOrder() {
       const isConfirmed = window.confirm('Are you sure you want to order this item?')
       if (isConfirmed) {
         this.placeOrder()

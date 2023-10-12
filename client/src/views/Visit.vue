@@ -11,8 +11,7 @@
 
 <script>
 export default {
-  name: 'VisitUs',
-  name: 'Terms',
+  name: 'VisitUs'
   
 }
 </script>
@@ -34,7 +33,7 @@ export default {
   margin-bottom: 30px;
 }
 
-.paragraphing {
+p {
   
   font-size: 16px;
   margin-bottom: 10px;

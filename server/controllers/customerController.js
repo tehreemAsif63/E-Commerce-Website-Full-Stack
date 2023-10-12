@@ -1,13 +1,12 @@
-const express = require("express");
-const router = express.Router();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const express = require("express");
+const secretJWTKey = require("./secretKey")
 const Customer = require("../entities/Customer");
-const Order = require("../entities/Order");
-const secretJWTKey=require("./secretKey");
-const verifyToken = require("./authController");
+const Order = require("../entities/Order")
+const bcrypt = require("bcrypt");
+const router = express.Router();
 
-router.post("/signup/customer", async (req, res) => {
+router.post("/customers", async (req, res) => {
   try {
     const { email, password, name, lastName } = req.body;
     const existingCustomer = await Customer.findOne({ email });
@@ -25,13 +24,13 @@ router.post("/signup/customer", async (req, res) => {
     const token = jwt.sign({ customerId: newCustomer._id }, secretJWTKey, {
       expiresIn: "3d",
     });
-    res.status(201).json({ token });
+    res.status(201).json({ newCustomer,token });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-router.post("/login/customer", async (req, res) => {
+router.post("/login/customers", async (req, res) => {
   try {
     const { email, password } = req.body;
     const customer = await Customer.findOne({ email });
@@ -42,7 +41,7 @@ router.post("/login/customer", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: "Authentication failed" });
     }
-    const token = jwt.sign({ customerId: customer._id }, secretJWTKey, {
+    const token = jwt.sign({ customer}, secretJWTKey, {
       expiresIn: "3d",
     });
     res.status(200).json({ token, customer });
@@ -57,7 +56,7 @@ router.post('/customers/validate-password', async (req, res) => {
     const customer = await Customer.findById(customerId);
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
-    }pt
+    }
     const passwordMatch = await bcrypt.compare(oldPassword, customer.password);
     if (passwordMatch) {
       res.status(200).json({ message: 'Password validation successful' });
@@ -65,31 +64,7 @@ router.post('/customers/validate-password', async (req, res) => {
       res.status(401).json({ message: 'Invalid old password' });
     }
   } catch (error) {
-    console.error('Error validating old password:', error);
     res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Create a new customer
-router.post("/customers", async (req, res) => {
-  try {
-    const customer = new Customer(req.body);
-    await customer.save();
-    res.status(201).json(customer);
-  } catch (error) {
-    res.status(400).json();
-  }
-});
-// Retrieve a customer by ID
-router.get("/customers/:id", async (req, res) => {
-  try {
-    const customer = await Customer.findById(req.params.id);
-    if (!customer) {
-      return res.status(404).json({ error: "Customer not found" });
-    }
-    res.status(200).json(customer);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -110,7 +85,20 @@ router.get("/customers", async (req, res) => {
 });
 
 
-// Endpoint for updating the customer's password
+//GET a customer by ID
+router.get("/customers/:id", async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+    res.status(200).json(customer);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Change a customer's password
 router.put('/customers/:customerId', async (req, res) => {
   try {
     const { customerId } = req.params;
@@ -131,7 +119,7 @@ router.put('/customers/:customerId', async (req, res) => {
 
 
 // Partially update a specific customer 
-router.patch("/customers/:id", async (req, res) => {
+router.patch("/customers/:id",  async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
       req.params.id,
@@ -160,6 +148,15 @@ router.delete("/customers/:id", async (req, res) => {
   }
 });
 
+router.delete("/customers", async (req, res) => {
+  try {
+    await Customer.deleteMany({}); 
+    res.status(204).send(); 
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete customers." });
+  }
+});
+
 router.get('/customers/:customerId/orders', async (req, res) => {
   try {
     const customerId = req.params.customerId;
@@ -178,7 +175,7 @@ router.post('/customers/:customerId/orders', async (req, res) => {
     const customerId = req.params.customerId;
     const customer = await Customer.findById(customerId);
     if (!customer) {
-      return res.status(404).json({ message: 'Customer not found' });
+      return res.status(404)
     }
     const newOrder = new Order({
       title: req.body.title,
@@ -195,7 +192,39 @@ router.post('/customers/:customerId/orders', async (req, res) => {
   }
 });
 
+router.delete('/customers/:customerId/orders/:orderId', async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+    const orderId = req.params.orderId;
 
+    // Step 1: Find the customer by customerId
+    const customer = await Customer.findById(customerId);
+
+    // Step 2: Check if the customer exists
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+
+    // Step 3: Check if the order exists in the customer's orders array
+    const orderIndex = customer.orders.indexOf(orderId);
+    if (orderIndex === -1) {
+      return res.status(404).json({ message: 'Order not found for the customer' });
+    }
+
+    // Step 4: Remove the order from the customer's orders array
+    customer.orders.splice(orderIndex, 1);
+
+    // Step 5: Delete the order from the Order collection
+    await Order.findByIdAndDelete(orderId);
+
+    // Step 6: Save the updated customer document
+    await customer.save();
+
+    res.status(200).json({ message: 'Order deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 
 

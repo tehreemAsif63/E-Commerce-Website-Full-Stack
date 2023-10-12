@@ -2,40 +2,26 @@
   <div class="login-container">
     <h1>Login</h1>
     <b-form @submit.prevent="toggleLogin" class="login-form">
-      <b-form-group
-        id="email-group"
-        label="Email:"
-        label-for="email"
-        label-cols-sm="2"
-        label-align-sm="right"
-      ><b-form-input
+        <b-form-input
           id="email"
           v-model="email"
           required
+          placeholder="Email"
+          class="rounded-pill"
         ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="password-group"
-        label="Password:"
-        label-for="password"
-        label-cols-sm="2"
-        label-align-sm="right"
-      >
         <b-form-input
           id="password"
           v-model="password"
           type="password"
           required
+          placeholder="Password"
+          class="rounded-pill"
         ></b-form-input>
-      </b-form-group>
       <b-button type="submit" variant="primary" class="login-button">
-       Login
+        Login
       </b-button>
     </b-form>
-    <b-alert v-if="errorMessage" variant="danger" dismissible fade class="error-message">
-      {{ errorMessage }}
-    </b-alert>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
     <router-link to="/signup" class="signup-link">Sign up</router-link>
   </div>
 </template>
@@ -48,7 +34,8 @@ export default {
   data: () => {
     return {
       email: '',
-      password: ''
+      password: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -61,22 +48,20 @@ export default {
         this.$router.push('/login')
       } else {
         try {
-          const response = await Api.post('/login/customer', {
+          const response = await Api.post('/login/customers', {
             email: this.email,
             password: this.password
           })
           if (response.status === 200) {
             const { customer, token } = response.data
-            console.log('Customer:', customer)
-            console.log('Token:', token)
             this.setCustomer(customer)
             this.setToken(token)
             this.$router.push('/myprofile')
           } else {
-            this.errorMessage = 'Authentication failed'
+            this.errorMessage = 'Invalid email or password'
           }
         } catch (error) {
-          this.errorMessage = 'Authentication failed'
+          this.errorMessage = 'Invalid email or password'
         }
       }
     }
@@ -84,33 +69,44 @@ export default {
 }
 </script>
 
-
 <style scoped>
 .login-container {
   background-color: lightgreen;
   color: white;
-  padding: 20px;
+  padding: 5%;
   border-radius: 5px;
-  width:400px;
-  height: 100px;
-  margin: 40px auto; 
+  margin: 2% auto;
   display: flex;
   flex-direction: column;
-  text-align: center; 
-  min-height: 40vh; 
+  text-align: center;
+  min-height: 50%;
+  width: 50%;
+}
+@media (min-width: 992px) {
+  .login-container {
+    width: 33%;
+  }
 }
 
 .login-form {
-  margin-top: 20px;
-
+  margin-top: 2%;
 }
 
 .login-button {
-  background-color: lightblue; 
+  background-color: lightblue;
   color: white;
+  margin-top: 5px;
+  border-radius: 10px;
 }
 
 .login-button:hover {
-  background-color: blue; 
+  background-color: blue;
+}
+.rounded-pill {
+margin-top: 5px;
+}
+.error-message{
+  color: red;
+
 }
 </style>
