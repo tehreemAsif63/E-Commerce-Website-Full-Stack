@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Item = require("../entities/Item");
 const Review = require("../entities/Review");
-const verifyToken = require("./authController")
 
 router.post('/items', async (req, res) => {
   try {
@@ -30,6 +29,17 @@ router.get("/items",  async (req, res) => {
   }
 });
 
+// Get an item by id
+router.get("/items/:itemId", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.itemId);
+    res.send(item);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
 router.patch("/items/:itemId", async (req, res) => {
   try {
     const updatedItem = await Item.updateOne(
@@ -42,40 +52,6 @@ router.patch("/items/:itemId", async (req, res) => {
   }
 });
 
-
-// Get an item by id
-router.get("/items/:itemId", async (req, res) => {
-  try {
-    const item = await Item.findById(req.params.itemId);
-    res.send(item);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-
-// Delete all items
-router.delete("/items", async (req, res) => {
-  try {
-    const removedItems = await Item.deleteMany({});
-    res.send(removedItems);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-// Delete an item by ID
-router.delete("/items/:itemId", async (req, res) => {
-  try {
-    const removedItem = await Item.findByIdAndRemove(req.params.itemId);
-    if (!removedItem) {
-      return res.status(404).send("Item not found");
-    }
-    res.send(removedItem);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
 // GET all reviews for a specific item by ID
 router.get('/items/:id/reviews', async (req, res) => {
   try {
@@ -111,6 +87,28 @@ router.post('/items/:id/reviews', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+// Delete all items
+router.delete("/items", async (req, res) => {
+  try {
+    const removedItems = await Item.deleteMany({});
+    res.send(removedItems);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// Delete an item by ID
+router.delete("/items/:itemId", async (req, res) => {
+  try {
+    const removedItem = await Item.findByIdAndRemove(req.params.itemId);
+    if (!removedItem) {
+      return res.status(404).send("Item not found");
+    }
+    res.send(removedItem);
+  } catch (err) {
+    res.status(400).send(err);
   }
 });
 

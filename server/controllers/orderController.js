@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../entities/Order");
 const Item = require("../entities/Item");
-const verifyToken = require("./authController")
 
 // Create a new order
 router.post("/orders", async (req, res) => {
@@ -13,7 +12,7 @@ router.post("/orders", async (req, res) => {
       return res.status(400).send({ error: validationError.message });
     }
     const savedOrder = await order.save();
-    res.status(201).send(savedOrder); 
+    res.status(201).send({order:savedOrder}); 
   } catch (error) {
     console.error("Error creating order:", error);
     res.status(500).send({ error: "An error occurred while creating the order." });
@@ -31,18 +30,6 @@ router.get("/orders", async (req, res) => {
   }
 });
 
-// Delete all orders
-router.delete("/orders",  async (req, res) => {
-  try {
-    await Order.deleteMany({}); 
-    
-    res.status(204).send(); 
-  } catch (error) {
-    console.error("Error deleting orders:", error);
-    res.status(500).send({ error: "An error occurred while deleting orders." });
-  }
-});
-
 // Get an order by id
 router.get("/orders/:orderId", async (req, res) => {
   try {
@@ -55,19 +42,6 @@ router.get("/orders/:orderId", async (req, res) => {
 
 // Update an order by id
 router.put("/orders/:orderId", async (req, res) => {
-  try {
-    const updatedOrder = await Order.updateOne(
-      { _id: req.params.orderId },
-      { $set: req.body }
-    );
-    res.send(updatedOrder);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-// Partially update an order by id
-router.patch("/orders/:orderId", async (req, res) => {
   try {
     const updatedOrder = await Order.updateOne(
       { _id: req.params.orderId },
@@ -96,9 +70,10 @@ router.post("/orders/:orderId/items", async (req, res) => {
       { new: true }
     );
     if (!updatedOrder) {
-      return res.status(404).send("Order not found");
+      return res.status(404);
     }
-    res.send(updatedOrder);
+    res.send({items:savedItem});
+
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
@@ -116,9 +91,36 @@ router.get("/orders/:orderId/items", async (req, res) => {
     res.json(order.items);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+  }
+});
+router.get("/orders/:orderId/items/:itemId", async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const itemId = req.params.itemId;
+    const order = await Order.findById(orderId).populate('items').exec();
+    if (!order) {
+      return res.status(404);
+    }
+    const item = order.items.find((i) => i._id.toString() === itemId);
+    if (!item) {
+      return res.status(404);
+    }
+    res.json(item);
+  } catch (err) {
+    console.error(err);
+    res.status(500);
   }
 });
 
+// Delete all orders
+router.delete("/orders",  async (req, res) => {
+  try {
+    await Order.deleteMany({}); 
+    res.status(204).send(); 
+  } catch (error) {
+    res.status(500);
+  }
+});
 
 module.exports = router;
