@@ -4,29 +4,34 @@
     
     <p class="section-sub-heading">Frequently Asked Questions</p>
 
-    <p class="questions">How do I place an order?</p>
-    <p class="paragraphing">Go to the product page, select your item, and click "Add to Cart." Proceed to checkout, provide shipping information, and complete the payment.</p>
-    <p></p>
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <div class="faq-item">
+        <p class="question">How do I place an order?</p>
+        <p class="answer">Go to the product page, select your item, and click "Add to Cart." Proceed to checkout, provide shipping information, and complete the payment.</p>
+      </div>
+      
+      <div class="faq-item">
+        <p class="question">How can I track my order?</p>
+        <p class="answer">Once your order is shipped, we'll email you a tracking link.</p>
+      </div>
+      
+      <div class="faq-item">
+        <p class="question">Troubleshooting Tips</p>
+        <p class="answer">1. Unable to login? Contact support for assistance.</p>
+        <p class="answer">2. Payment declined? Check card details or try a different payment method.</p>
+      </div>
+    </div>
 
-    <p class="questions">How can I track my order?</p>
-    <p class="paragraphing">Once your order is shipped, we'll email you a tracking link.</p>
-    <p></p>
+    <!-- Contact Section -->
+    <div class="contact-section">
+      <p class="contact-heading">Contact Us</p>
+      <p>Email: support@example.com</p>
+      <p>Phone: +46-7123-456789</p>
+    </div>
 
-    <p class="questions">Troubleshooting Tips</p>
-    <p class="paragraphing">1. Unable to login? Contact support for assistance.</p>
-    <p class="paragraphing">2. Payment declined? Check card details or try a different payment method.</p>
-
-    <p class="questions">Contact Us</p>
-    <p class="paragraphing">Email: support@example.com</p>
-    <p class="paragraphing">Phone: +46-7123-456789</p>
-
-<div class="bottom-links">
-      <router-link to="/user-guides" class="link">User Guides</router-link>
-      <router-link to="/privacy-policy" class="link">Privacy Policy</router-link>
-      <router-link to="/feedback" class="link">Feedback</router-link>
 </div>
 
- </div>
 </template>
 
 <script>
@@ -36,67 +41,75 @@ export default {
 </script>
 
 <style scoped>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #6f6fb0a4;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.help{
-  padding: 100px;
-  border: 10px solid #e0e0e0;
-  border-radius: 20px;
-  background-color: #81b97bcc;
-  margin: 20px 10;
+.help {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 50px;
+  border-radius: 10px;
+  background-color: #394240; 
+  color: #EAEAEA; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  border: none; 
+  padding-bottom: 100px;
 }
 
 .section-heading {
-  font-size: 100px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 48px; 
   font-weight: bold;
-  margin-bottom: 30px;
-  color: azure;
-}
-.section-sub-heading{
-font-size: 50px;
-font-weight: 900;
-margin-bottom: 10px;
-margin-top: 10px;
-}
-.questions{
-font-size: 35px;
-font-weight: bold;
-margin-bottom: 0px; 
-margin: 2%;
+  color: #F8B400; 
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.paragraphing {
-  
-  font-size: 25px;
-  margin-bottom: 0px;
+.section-sub-heading {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.faq-section, .contact-section {
+  margin-bottom: 40px;
+}
+
+.question, .contact-heading {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.answer {
+  font-size: 18px;
+  margin-bottom: 20px;
+  line-height: 1.6; 
+}
+
+.contact-section p {
+  font-size: 18px;
   line-height: 1.6;
-  padding: 2px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-bottom: 100px;
 }
 
 .bottom-links {
   display: flex;
   justify-content: center;
-  margin-top: 20px; 
+  margin-top: 20px;
+  margin-bottom: 100px;
 }
 
 .link {
-  margin: 0 20px; 
-  margin-top: 70px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #0066cc; 
+  font-family: 'Noto Sans', sans-serif;
+  margin: 0 15px;
+  font-size: 18px;
+  color: #F8B400;
   text-decoration: none;
+  transition: color 0.3s ease; 
 }
 
 .link:hover {
-  text-decoration: underline;
+  color: #FFD166; 
 }
-
 </style>

@@ -19,30 +19,24 @@ export default {
 
 <style scoped>
 .about-us {
-  padding: 100px;
-  border: 10px solid #e0e0e0;
-  border-radius: 20px;
-  background-color:#81b97bcc;
-  margin: 20px 10;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 50px;
+  border-radius: 10px;
+  background-color: #394240; 
+  color: #EAEAEA; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  border: none; 
 }
-
 .section-heading {
-  font-size: 70px;
+  font-family: 'Raleway', sans-serif; 
+  font-size: 48px; 
   font-weight: bold;
+  color: #F8B400; 
   margin-bottom: 30px;
+  text-align: center; 
 }
-
-.paragraphing {
-  
-  font-size: 20px;
-  margin-bottom: 10px;
-  line-height: 1.6;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
 .heart {
-  color: red;
+  color: #F8B400; 
 }
-
-
 </style>
