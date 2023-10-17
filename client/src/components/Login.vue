@@ -97,30 +97,37 @@ export default {
 
 <style scoped>
 .login-container {
-  background-color: lightgreen;
-  color: white;
-  padding: 20px;
-  border-radius: 5px;
-  width:400px;
-  height: 100px;
+  background-color: #2C3E50;
+  color: #EAEAEA;
+  padding: 40px;
+  border: 2px solid #F8B400;
+  border-radius: 20px;
+  width: 400px;
   margin: 40px auto; 
   display: flex;
   flex-direction: column;
-  text-align: center; 
-  min-height: 40vh; 
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 .login-form {
   margin-top: 20px;
-
 }
 
+
 .login-button {
-  background-color: lightblue; 
-  color: white;
+  background-color: #F8B400;
+  color: #2C3E50;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: blue; 
+  background-color: #C69200;
 }
 </style>

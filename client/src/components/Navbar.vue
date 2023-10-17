@@ -1,38 +1,30 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-lightgreen">
+  <nav class="navbar">
     <div class="container">
-      <router-link to="/" class="navbar-brand text-script text-white">Your Shop</router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link text-white">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/items" class="nav-link text-white">Products</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="loginLink" class="nav-link text-white">{{ loginText }}</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link text-white">🛒</router-link>
-          </li>
-        </ul>
-      <div>
-      <Cart></Cart>
-    </div>
-      </div>
+      
+      <router-link to="/" class="logo">
+        <img src="@/assets/yourShop.jpeg" alt="Your Shop" />
+      </router-link> 
+      <ul class="nav-links">
+        <li>
+          <router-link to="/" class="nav-link">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/items" class="nav-link">Products</router-link>
+        </li>
+        <li>
+          <router-link :to="loginLink" class="nav-link">{{ loginText }}</router-link>
+        </li>
+        
+      </ul>
     </div>
   </nav>
 </template>
+
 <script>
-import Cart from '../views/Cart.vue'
+
 export default {
-  components: {
-    Cart
-  },
+  
   computed: {
     loginLink() {
       return this.$store.getters.isLoggedIn ? '/logout' : '/login' 
@@ -43,59 +35,69 @@ export default {
   }
 }
 </script>
-  <style scoped>
-  .navbar {
-    background-color: rgb(29, 113, 54);
-    color: white;
-    height: 90px;
-    padding: 10px 0;
-    font-size: large;
-  }
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Script Font', cursive;
-  }
-  .logo {
-    font-size: 30px;
-    font-weight: bolder;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-block-end: 5%;
-    margin-right: 10%;
-    
-    }
+<style scoped>
 
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 150px;
-    font-size: 20px;
-    font-weight: bold;
-    margin-right: auto;
-  }
-  .nav-links li {
-    padding: 0;
-    margin: 0;
-  }
-  .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-  }
-  .cart-logo {
-    font-size: 30px;
-    cursor: pointer;
-    order: 2;
-  }
-  .text-script {
-  font-family: 'Script Font', cursive; 
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   transition: all 0.3s ease; 
 }
 
-.bg-lightgreen {
-  background-color: rgb(56, 163, 54);
+body {
+   font-family: 'Noto Sans', sans-serif;
+   background-color: #f7f8fa;
+   color: #333;
 }
-  
-  </style>
+
+a {
+   text-decoration: none;
+   color: inherit;
+   transition: color 0.3s ease; 
+}
+
+ul {
+   list-style: none;
+}
+
+.navbar {
+   background-color: #2C3E50;
+   color: #EAEAEA;
+   height: 90px; 
+   padding: 0 20px; 
+   font-size: 16px; 
+   border-bottom: 3px solid #F8B400; 
+   display: flex; 
+   align-items: center; 
+}
+
+.container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   max-width: 1200px;
+   margin: 0 auto;
+   width: 100%; 
+}
+
+.logo img {
+  height: 75px; 
+  width: auto; 
+}
+.nav-links {
+   display: flex;
+   gap: 25px; 
+   align-items: center; 
+}
+
+.nav-links a {
+   color: #EAEAEA; 
+   padding: 10px 15px; 
+}
+.nav-links a:hover, .nav-links a:focus {
+   color: #F8B400; 
+   border-bottom: 2px solid transparent; 
+   outline: none; 
+}
+
+</style>
