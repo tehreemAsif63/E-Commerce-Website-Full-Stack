@@ -18,25 +18,25 @@ export default {
 <style scoped>
 .visit-us {
   padding: 100px;
-  border: 10px solid #a2cfa7;
-  border-radius: 10px;
-  background-color: #81b97bcc;
-  margin: 20px ;
+  border: 10px solid #394240;
+  border-radius: 20px; 
+  background-color: #394240;
+  margin: 20px;
+  color: #EAEAEA; 
 }
 
 .section-heading {
   font-size: 70px;
-  color: azure;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
   margin-bottom: 30px;
+  color: #F8B400; 
+  font-family: 'Noto Sans', sans-serif; 
 }
 
 .paragraphing {
-  
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 20px; 
+  margin-bottom: 20px; 
   line-height: 1.6;
+  font-family: 'Noto Sans', sans-serif; 
 }
-
 </style>
