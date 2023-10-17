@@ -19,16 +19,30 @@ router.post('/items', async (req, res) => {
   }
 });
 
-router.get("/items",  async (req, res) => {
+router.get("/items", async (req, res) => {
   try {
-    const items = await Item.find()
+    const items = await Item.aggregate([
+      {
+        $lookup: {
+          from: "reviews", // Assuming the name of the reviews collection is "reviews"
+          localField: "_id",
+          foreignField: "itemId",
+          as: "reviews",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: "$reviews.rating" },
+        },
+      },
+    ]);
+
     res.json(items);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 // Get an item by id
 router.get("/items/:itemId", async (req, res) => {
   try {

@@ -72,11 +72,11 @@ export default {
   flex-direction: column;
   text-align: center;
   min-height: 50%;
-  width: 50%;
+  width: 70%;
 }
 @media (min-width: 992px) {
   .signup-container {
-    width: 33%;
+    width: 30%;
   }
 }
 

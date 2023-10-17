@@ -8,11 +8,6 @@
         <cart :cart="cart" @remove-from-cart="removeFromCart"></cart>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col>
-        <order :cart="cart" />
-      </b-col>
-    </b-row>
     <b-img
       src="@/assets/skye.jpg"
       alt="Background Image"
@@ -26,12 +21,10 @@
 <script>
 import ItemList from './ItemList.vue'
 import Cart from './Cart.vue'
-
 export default {
   components: {
     ItemList,
     Cart
-   
   },
   data() {
     return {

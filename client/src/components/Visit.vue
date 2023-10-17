@@ -23,6 +23,7 @@ export default {
   border-radius: 10px;
   background-color: #81b97bcc;
   margin: 20px ;
+  margin-top: 20%;
 }
 
 .section-heading {

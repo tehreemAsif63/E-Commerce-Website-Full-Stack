@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <button @click="confirmOrder">Checkout</button>
+    <div class="container">
+    <button class="custom-button" @click="confirmOrder">Checkout</button>
   </div>
 </template>
 
@@ -35,11 +35,11 @@ export default {
         if (response.status === 201) {
           this.$emit('clear-cart')
           this.$router.push('/myprofile')
-          console.log(newOrder)
         } else {
           alert('Something went wront')
         }
       } catch (error) {
+        alert('fetching orders failed. Try again!')
       }
     },
     confirmOrder() {
@@ -51,3 +51,24 @@ export default {
   }
 }
 </script>
+<style>
+.custom-button {
+  background-color: #007bff; 
+  color: #fff; 
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 5px;
+  cursor: pointer; 
+  font-size: 16px; 
+  font-weight: 600; 
+  transition: background-color 0.3s, color 0.3s; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-button:hover {
+  background-color: #0056b3; 
+}
+</style>

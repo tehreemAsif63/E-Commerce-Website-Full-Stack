@@ -1,27 +1,20 @@
 <template>
   <div>
-    <button @click="showReviewForm">Review</button>
+    <button @click="reviewForm">Review</button>
     <div v-if="showForm">
-      <h3>Add a Review</h3>
       <form @submit.prevent="submitReview">
         <div>
-          <label class="comment" for="comment">Comment:</label>
-          <input class="comment-input" v-model="review.comment" id="comment" type="text">
+          <label class="comment" >Comment:</label>
+          <input class="comment-input" v-model="review.comment" type="text">
         </div>
         <div>
           <label for="rating">Rating (0-5):</label>
           <input v-model.number="review.rating" id="rating" type="number" min="0" max="5">
         </div>
-
         <div>
           <button type="submit">Submit Review</button>
         </div>
       </form>
-    </div>
-    <div v-if="submittedReview">
-      <h3>Submitted Review</h3>
-      <p>Rating: {{ submittedReview.rating }}</p>
-      <p>Comment: {{ submittedReview.comment }}</p>
     </div>
   </div>
 </template>
@@ -43,8 +36,8 @@ export default {
     }
   },
   methods: {
-    showReviewForm() {
-      this.showForm = true
+    reviewForm() {
+      this.showForm = !this.showForm 
     },
     async submitReview() {
       if (this.review.rating < 0 || this.review.rating > 5) {
@@ -66,7 +59,8 @@ export default {
         this.review.rating = 0
         this.showForm = false
       } catch (error) {
-
+        alert('Review was not added.')
+        this.showForm = false
       }
     }
   }
@@ -76,19 +70,37 @@ export default {
   
   
 <style scoped>
-#comment {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-.comment-input {
-  width: 150px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-p {
-  color:black;
-}
+  .comment {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .comment-input {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  #rating {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+ 
+  @media (max-width: 768px) {
+    .comment-input, #rating {
+      width: 70%;
+    }
+  }
 </style>
