@@ -67,7 +67,7 @@ Our e-commerce website provides an easy to use and user-focused platform for onl
 
 ### Pages
 
-* Home: the Home page welcomes users to the site, showcasing the available products. The navigation bar aids easy access to different sections like Products, About, and Login. The cart icon indicates a shopping cart to hold chosen items..
+* Home: the Home page welcomes users to the site, showcasing the available products. The navigation bar aids easy access to different sections like items, About, and Login. The cart icon indicates a shopping cart to hold chosen items..
 * Shopping cart: the Shopping Cart page allows customers to view, add, or remove items. Each listed item shows a thumbnail image, name, and price. A total price, calculated at the bottom, gives a quick overview of the total cost. Users can proceed to order their selected items from this page.
 * Login/signup: the Login page provides an interface for customers to log in or sign up for an account. The signup section collects necessary information such as email, password, name, and last name, ensuring all fields are filled before submission. On successful account creation or login, customers are navigated to their profile page. In case of any input error or signup/login failure, an error message is displayed to guide the user.
 * About: the About page provides comprehensive information about the website, aiding users to understand the site's purpose, offerings, and how to navigate through different sections.
