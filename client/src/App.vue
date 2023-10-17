@@ -8,7 +8,7 @@
 </template>
 <script>
 import Navbar from '@/components/Navbar.vue'
-import Visit from './views/Visit.vue'
+import Visit from '@/components/Visit.vue'
 export default {
   name: 'app',
   components: {

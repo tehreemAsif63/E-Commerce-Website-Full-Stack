@@ -1,6 +1,9 @@
 <template>
   <div class="login-container">
-    <h1>Login</h1>
+    <h1>
+      <b-icon icon="person" class="login-icon"></b-icon>
+
+    </h1>
     <b-form @submit.prevent="toggleLogin" class="login-form">
         <b-form-input
           id="email"
@@ -44,7 +47,6 @@ export default {
       e.preventDefault()
       if (this.$store.getters.isLoggedIn) {
         this.setCustomer(null)
-        this.setToken(null)
         this.$router.push('/login')
       } else {
         try {
@@ -71,7 +73,7 @@ export default {
 
 <style scoped>
 .login-container {
-  background-color: lightgreen;
+  background-color:lightgreen;
   color: white;
   padding: 5%;
   border-radius: 5px;
@@ -80,11 +82,11 @@ export default {
   flex-direction: column;
   text-align: center;
   min-height: 50%;
-  width: 50%;
+  width: 70%;
 }
 @media (min-width: 992px) {
   .login-container {
-    width: 33%;
+    width: 30%;
   }
 }
 

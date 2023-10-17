@@ -5,7 +5,7 @@ import MyProfile from './views/Profile.vue'
 import SignUp from './components/SignUp.vue'
 import Login from './components/Login'
 import Logout from './components/Logout'
-import About from '@/views/About.vue'
+import About from './components/About.vue'
 
 Vue.use(Router)
 

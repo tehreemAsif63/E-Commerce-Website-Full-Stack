@@ -1,17 +1,46 @@
 <template>
-    <div>
-        <h2>Change Password</h2>
-        <form @submit.prevent="changePassword">
-            <label for="oldPassword">Old Password:</label>
-            <input type="password" id="oldPassword" v-model="passwordData.oldPassword" required>
-            <label for="newPassword">New Password:</label>
-            <input type="password" id="newPassword" v-model="passwordData.newPassword" required>
-            <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" v-model="passwordData.confirmPassword" required>
-            <button type="submit">Confrim</button>
-        </form>
-    </div>
+  <div>
+    <form @submit.prevent="changePassword">
+      <b-form-group>
+        <b-input
+          type="password"
+          id="oldPassword"
+          v-model="passwordData.oldPassword"
+          required
+          placeholder="Enter your old password"
+          size="sm"
+        />
+      </b-form-group>
+
+      <b-form-group
+      >
+        <b-input
+          type="password"
+          id="newPassword"
+          v-model="passwordData.newPassword"
+          required
+          placeholder="Enter your new password"
+          size="sm"
+        />
+      </b-form-group>
+
+      <b-form-group
+      >
+        <b-input
+          type="password"
+          id="confirmPassword"
+          v-model="passwordData.confirmPassword"
+          required
+          placeholder="Confirm your new password"
+          size="sm"
+        />
+      </b-form-group>
+
+      <b-button type="submit" variant="primary" size="sm">Confirm</b-button>
+    </form>
+  </div>
 </template>
+
   
 <script>
 import { Api } from '../Api'
@@ -58,4 +87,33 @@ export default {
 }
 </script>
   
-<style scoped></style>
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+b-input {
+  width: 100%; /* Use full width for small screens */
+  margin: 5px 0; /* Add vertical margin for better spacing */
+}
+
+b-button[type="submit"] {
+  margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+  form {
+    height: auto; /* Allow content to determine height */
+  }
+
+  b-button[type="submit"] {
+    margin-top: 15px;
+  }
+}
+</style>
