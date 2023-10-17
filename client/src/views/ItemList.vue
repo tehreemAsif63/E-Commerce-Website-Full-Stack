@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>items for sale</h2>
+    <h2>Items for sale</h2>
     <div class="item-card-container">
       <div v-for="item in items" :key="item._id" class="item-card">
         <b-card :title="item.name" :img-src="item.image" img-alt="Item Image" img-top tag="article"
